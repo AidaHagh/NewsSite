@@ -1,0 +1,72 @@
+﻿@model LoginViewModel
+@inject SignInManager<ApplicationUsers> signInManager;
+
+
+
+@if (signInManager.IsSignedIn(User))
+{
+    <div id="login">
+        <form asp-area="" asp-controller="Account" asp-action="LogOut" style="margin-left:5px; margin-right:5px;">
+
+            <div class="alert alert-info text-center" role="alert">کاربر گرامی <span style="font-weight:bold">@ViewBag.FullName</span> خوش آمدید</div>
+            <hr style="height:1px; background-color:gray;" />
+
+            <div style="margin-top: 30px; margin-bottom:15px;">
+                <a href="/AdminPanel/User/Index" class="btn customBlueGn" style="width: 49%;">پنل کاربری</a>
+                <button type="submit" class="btn customRed1 pull-left" style="width: 49%;">خروج از سیستم</button>
+            </div>
+
+        </form>
+    </div>
+} 
+else
+{
+
+        <form asp-controller="Account" asp-action="Login" method="post" id="frmLogin">
+        <div id="login">
+            <span class="header-lastnews"><i class="glyphicon glyphicon-log-in"></i> فرم ورود</span>
+
+            <div class="hr"></div>
+            <div class="form-group">
+                <div class="input-group col-md-9 col-xs-12" style="padding-left:9px; padding-right:9px;">
+                    <div class="input-group-addon"
+                         style="border:1px solid gray; padding:6px">
+                        <span class="glyphicon glyphicon-user"></span>
+                    </div>
+                    <input asp-for="UserName" type="text" class="form-control" id="txtusername" placeholder="نام کاربری را وارد نمایید" />
+                    <span asp-validation-for="UserName" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-group col-md-9 col-xs-12" style="padding-left:9px; padding-right:9px;">
+                    <div class="input-group-addon"
+                         style="border:1px solid gray; padding:6px">
+                        <span class="glyphicon glyphicon-lock"></span>
+                    </div>
+                    <input asp-for="Password" type="password" class="form-control" id="txtpassword" placeholder="کلمه عبور را وارد نمایید" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <div class="checkbox">
+                        <label asp-for="RememberMe">
+                            <input asp-for="RememberMe" />
+                            @Html.DisplayNameFor(m=>m.RememberMe)
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <span id="spanerror" class="text-danger " style="font-weight:bold;"></span>
+            <div class="row" style="width:100%">
+                <div class="form-group pull-left">
+                    <button type="submit" class="btn btn-success">وورد</button>
+                </div>
+            </div>
+        </div>
+        </form>
+ 
+
+}      

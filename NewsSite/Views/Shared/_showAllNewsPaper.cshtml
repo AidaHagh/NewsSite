@@ -1,0 +1,123 @@
+﻿@model IEnumerable<NewsPaper>
+
+
+<style>
+    .list-content-body figure {
+        float: right;
+        margin-left: 10px
+    }
+
+    #news-page-list { /*end*/
+        border-radius: 2px;
+        padding-top: 2px;
+        border: 1px solid rgb(200,200,200);
+        box-shadow: inset 0px 20px 20px 0px #e3e3e3;
+        background-color: white;
+        padding-right: 5px;
+        padding-left: 3px;
+        margin-bottom: 10px;
+    }
+</style>
+@if (Model != null)
+{
+    <div class="col-md-12 col-xs-12">
+        @foreach (var item in Model)
+        {
+            <div id="news-page-list" class="col-md-6 col-sx-12 widget widget-bordered title-a widget-page">
+                <div class=" ">
+                    <section class="list-content-body ">
+                        <div class="small" style="position:relative; top:3px;">
+                            <span>
+                                <i class="glyphicon glyphicon-calendar"></i>
+                                <span>
+                                    @ConvertDateTime.ConvertMiladiToShamsi(item.Date,"yyyy/MM/dd")
+                                </span>
+                            </span>
+                            <span>
+                                <i class="glyphicon glyphicon-time"></i>
+                                <span>
+                                    @ConvertDateTime.ConvertMiladiToShamsi(item.Time,"HH:mm")
+                                </span>
+                            </span>
+
+                        </div>
+                        <br />
+                        <div style="text-align: center;">
+                            <img alt="@item.Title" style="max-width:100%;" src="~/upload/NewsPaperImage/@item.Image">
+
+                            <h3 style="font-size:14px; font-weight:600;color: green;">
+                                @item.Title
+
+                            </h3>
+                        </div>
+
+
+
+                    </section>
+
+                    
+                </div>
+
+            </div>
+     
+        }
+     
+    </div>
+  
+
+    @if (ViewBag.PageCount > 1)
+    {
+        <div class="row text-center">
+
+            <nav>
+                <ul class="pagination">
+
+                    @if ((int)ViewBag.PageID > 1)
+                    {
+                        @* Previous *@
+                        <li>
+
+                            <a asp-controller="Home" asp-action="NewsPaperPage" asp-route-Page="@((int)ViewBag.PageID - 1)">
+                                <span>قبلی</span>
+                            </a>
+                        </li>
+                    }
+
+                    @for (int i = Math.Max(1, (int)ViewBag.PageID - 2); i <= Math.Min((int)ViewBag.PageCount, (int)ViewBag.PageID + 2); i++)
+                    {
+                        <li class="@(((int)ViewBag.PageID==i)?" active":"")">
+                            <a asp-controller="Home" asp-action="NewsPaperPage" asp-route-page="@i">
+                                @i
+                                <span class="sr-only"></span>
+                            </a>
+                        </li>
+                    }
+
+
+                    @if ((int)ViewBag.PageID <= (int)ViewBag.PageCount - 1)
+                    {
+                        @* Next *@
+                        <li>
+                            <a asp-controller="Home" asp-action="NewsPaperPage" asp-route-Page="@((int)ViewBag.PageID + 1)">
+                                <span>بعدی</span>
+                            </a>
+                        </li>
+
+                    }
+                </ul>
+            </nav>
+        </div>
+
+    }
+
+
+}
+else
+
+{
+    <div class="col-md-12 alert alert-danger" style="margin-bottom: 110px; margin-top: 100px;text-align: center;">
+
+        <span class=" " style="font-size:18px;">جستجو نتيجه اي نداشت!!!</span>
+
+    </div>
+}

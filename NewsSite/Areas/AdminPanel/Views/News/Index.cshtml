@@ -1,0 +1,151 @@
+﻿@model IEnumerable<News>
+@{
+    ViewData["Title"] = "لیست اخبار";
+    ViewData["selected"] = "News";
+
+    Layout = "~/Areas/AdminPanel/Views/Shared/_AdminLayout.cshtml";
+    int counter = 1;
+}
+
+
+
+<style>
+    tr:hover td {
+        background-color: #dce4dc;
+    }
+</style>
+
+<div class="content">
+
+
+
+    <form>
+        <div class="panel panel-heading panelstyle">
+
+            <span style="font-weight:bold;">
+                <i class="icon-list"></i>
+                لیست اخبار
+            </span>
+        </div>
+
+        <div class="panel col-md-12 searchStyle">
+
+            <span style="margin-bottom:5px;">جستجوی محتوا :</span>
+
+            <input type="text" id="mySearch" style="border: 1px solid gray;width: 300px; height: 40px;margin-bottom: 5px;text-align: center;font-weight: bold;border-radius: 4px;" placeholder="جستجو..." />
+
+        </div>
+    </form>
+
+    <div style="margin-bottom:5px;">
+        <a class="btn customPurple1" asp-controller="News" asp-action="Create">
+            <i class="glyphicon glyphicon-plus"></i>
+            افزودن خبر
+        </a>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-danger text-center" role="alert">
+            <span style="font-weight:bold">عبارت مورد نظر پیدا نشد!</span>
+        </div>
+    }
+    else
+    {
+        <div>
+            <div class="table-responsive"
+                 style=" overflow:auto; border:1px solid gray; border-radius:2px; box-shadow:3px 3px 1px 0 gray;">
+                <table class="table table-bordered" style="background-color:white;">
+                    <thead>
+                        <tr style="font-size:14px; font-weight:bold; background-color:#becbbe;">
+                            <td>ردیف</td>
+                            <td>عنوان خبر</td>
+                            <td class="text-center">چکیده خبر</td>
+                            <td>تعداد بازدید</td>
+                            <td>تاریخ خبر</td>
+                            <td>ساعت خبر</td>
+                            <td>دسته بندی</td>
+                            <td>محل درج خبر</td>
+                            <td>تصویر خبر</td>
+                            <td style="width:110px;text-align:center;">عملیات</td>
+                        </tr>
+                    </thead>
+                    <tbody id="myTable">
+                        @foreach (var item in Model)
+                        {
+                            <tr style="font-size:12px;">
+                                <td style="width:60px; text-align:center;">@counter</td>
+                                <td style="text-align:right;">@item.Title</td>
+                                <td>@item.Abstract</td>
+                                <td>@item.VisitCount</td>
+                                <td>@ConvertDateTime.ConvertMiladiToShamsi(item.NewsDate,"yyyy/MM/dd")</td>
+                                <td>@ConvertDateTime.ConvertMiladiToShamsi(item.NewsTime,"HH:mm")</td>
+                                <td>@item.Category.Title</td>
+                                @{
+                                    List<IndexPageSection> PlaceSections;
+                                    var PlaceSection = new IndexPageSection();
+                                    PlaceSections = PlaceSection.GetPalceIndex().Where(r => r.ID == item.PlaceNewsId).ToList();
+                                    <td>@PlaceSections[0].Title</td>
+
+                                }
+
+                                <td>
+                                    <img src="/upload/indexImage/@item.IndexImage" style="width:60px;height:65px" />
+                                </td>
+                                <td>
+                                    <div class="row">
+
+                                        <a style="height:30px; width:40px; font-size:9px; margin-bottom:3px;" class="btn customBlue1"
+                                           asp-action="Edit" asp-route-NewsId="@item.NewsId" title="ویرایش" data-toggle="tooltip" data-placement="top">
+                                            <i class="glyphicon glyphicon-edit"></i>
+                                        </a>
+
+                                        <a style="height:30px; width:40px; font-size:9px; margin-bottom:3px;" asp-action="Delete" asp-route-NewsId="@item.NewsId"
+                                           data-toggle="modal" data-target="#modal-action" class="btn customRed1" >
+                                            <i class="glyphicon glyphicon-trash" title="حذف" data-toggle="tooltip" data-placement="top"></i>
+                                        </a>
+
+                                    </div>
+
+                                </td>
+                            </tr>
+                            counter++;
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+
+</div>
+
+@* Paging *@
+@Html.Partial("Paginations/_newsPaging")
+
+
+@Html.Partial("_Modal", new BootstrapModel { ID = "modal-action", Size = BootstrapModel.ModalSize.Medium })
+
+@section AdminScripts{
+    <script src="~/admin/assets/js/modal/modal.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $("#mySearch").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $("#myTable tr").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+    </script>
+
+
+    @*برای تایتل دکمه ها*@
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+}
+

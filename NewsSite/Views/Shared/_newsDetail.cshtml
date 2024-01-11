@@ -1,0 +1,90 @@
+﻿
+@{
+    News n = ViewBag.NewsDetails;
+}
+
+<div id="newsDetails">
+    <article class="no-gutter separator-left">
+        <section class="meta meta-top">
+            <div class="content-infos pull-left">
+                <span>
+                    <i class="glyphicon glyphicon-calendar"></i>
+                    <span class="numbers">
+                        @ConvertDateTime.ConvertMiladiToShamsi(n.NewsDate,"yyyy/MM/dd")
+                    </span>
+                </span>
+                <span>
+                    <i class="glyphicon glyphicon-time"></i>
+                    <span class="numbers">
+                        @ConvertDateTime.ConvertMiladiToShamsi(n.NewsTime,"HH:mm")
+                    </span>
+                </span>
+                <span>
+                    <i class="glyphicon glyphicon-user"></i>
+                    <span class="numbers">@n.VisitCount</span>
+                </span>
+            </div>
+        </section>
+        <div class="clearfix"></div>
+
+        <header>
+            <h1 style="font-size:16px; margin:10px; font-weight:bold;text-align:center">
+                @n.Title
+            </h1>
+        </header>
+        <div >
+            <img src="~/upload/indexImage/@n.IndexImage" style="max-width:100%;" />
+
+        </div>
+        <main class="content">
+
+            @Html.Raw(@n.Content) <!--دستورات اچ تی ام ال نمایش نده-->
+
+            <div>
+            </div>
+
+            <section class="meta meta-bottom">
+                <div class="pull-left">
+                    <a class="btn-share-ico btn-share btn-facebook" data-share="facebook">
+                        <i class="fa fa-facebook"></i>
+                    </a>
+                    <a class="btn-share-ico btn-share btn-twitter" data-share="twitter">
+                        <i class="fa fa-twitter"></i>
+                    </a>
+                    <a class="btn-share-ico btn-share btn-googleplus" data-share="googleplus">
+                        <i class="fa fa-google-plus"></i>
+                    </a>
+                </div>
+            </section>
+            <div class="clearfix"></div>
+          
+            <ul class="list-inline tags">
+                <li class="label">
+                    <a href="/tag/news/%D9%BE%D8%B1%D8%B3%D9%BE%D9%88%D9%84%DB%8C%D8%B3/">
+                        <i class="fa fa-tag"></i>
+                        تراکتورسازی
+                    </a>
+                </li>
+                <li class="label">
+                    <a href="/tag/news/%D8%AF%D8%A7%D8%AE%D9%84%DB%8C/">
+                        <i class="fa fa-tag"></i>
+                        داخلی
+                    </a>
+                </li>
+                <li class="label">
+                    <a href="/tag/news/%D8%AD%D8%B3%DB%8C%D9%86-%D9%85%D8%A7%D9%87%DB%8C%D9%86%DB%8C/">
+                        <i class="fa fa-tag"></i>
+                        مهدی  مهدوی کیا
+                    </a>
+                </li>
+            </ul>
+
+        </main>
+
+    </article>
+
+</div>
+
+
+
+@Html.Partial("_commentPartial")

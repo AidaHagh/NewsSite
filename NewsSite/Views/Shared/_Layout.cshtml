@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+
+    <!--Seo Meta Tag-->
+    <!--کلمات کلیدی مثل کیورد و دیسکریبشن-->
+    <meta name="keywords" content="@ViewData["metaKey"]" />
+    <meta name="description" content="@ViewData["metadescription"]" />
+
+    <!-- BootStrap -->
+    <link href="/site/css/bootstrap.min.css" rel="stylesheet" />
+    <!--rtl BootStrap -->
+    <link href="~/site/css/bootstrap-rtl.css" rel="stylesheet" />
+    <link href="~/site/css/StyleSheet-index.css" rel="stylesheet" />
+    <link href="~/site/css/customstyle.css" rel="stylesheet" />
+    <link href="~/site/css/stylesheet.css" rel="stylesheet" />
+    <!--fontawesome-->
+    <link href="~/admin/assets/css/icons/fontawesome/styles.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div>
+        @Html.Partial("_statisticsPartial")
+    </div>
+
+    <div class="container-fluid body-content">
+        @RenderBody()
+    </div>
+
+
+    <!-- jquery -->
+    <script src="~/site/js/jquery-3.2.1.min.js"></script>
+    <!-- javascript -->
+    <script src="~/site/js/bootstrap.min.js"></script>
+    <!-- chart -->
+    <script src="~/site/js/chart/jquery.flot.js"></script>
+    <script src="~/site/js/chart/jquery.flot.pie.js"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

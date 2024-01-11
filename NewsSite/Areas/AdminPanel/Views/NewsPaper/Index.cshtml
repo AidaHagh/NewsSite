@@ -1,0 +1,139 @@
+﻿@model IEnumerable<NewsPaper>
+@{
+    ViewData["Title"] = "روزنامه ها";
+    ViewData["selected"] = "NewsPaper";
+
+    Layout = "~/Areas/AdminPanel/Views/Shared/_AdminLayout.cshtml";
+    int counter = 1;
+}
+
+
+
+<style>
+    tr:hover td {
+        background-color: #dce4dc;
+    }
+</style>
+
+<div class="content">
+
+
+
+    <form>
+        <div class="panel panel-heading panelstyle">
+
+            <span style="font-weight:bold;">
+                <i class="icon-list"></i>
+                @ViewData["Title"]
+            </span>
+        </div>
+
+        <div class="panel col-md-12 searchStyle">
+
+            <span style="margin-bottom:5px;">جستجوی محتوا :</span>
+
+            <input type="text" id="mySearch" style="border: 1px solid gray;width: 300px; height: 40px;margin-bottom: 5px;text-align: center;font-weight: bold;border-radius: 4px;" placeholder="جستجو..." />
+
+        </div>
+    </form>
+
+    <div style="margin-bottom:5px;">
+        <a class="btn customPurple1" asp-controller="NewsPaper" asp-action="Create">
+            <i class="glyphicon glyphicon-plus"></i>
+            افزودن روزنامه
+        </a>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-danger text-center" role="alert">
+            <span style="font-weight:bold">عبارت مورد نظر پیدا نشد!</span>
+        </div>
+    }
+    else
+    {
+        <div>
+            <div class="table-responsive"
+                 style=" overflow:auto; border:1px solid gray; border-radius:2px; box-shadow:3px 3px 1px 0 gray;">
+                <table class="table table-bordered" style="background-color:white;">
+                    <thead>
+                        <tr style="font-size:14px; font-weight:bold; background-color:#becbbe;">
+                            <td>ردیف</td>
+                            <td>عنوان روزنامه</td>
+                            <td>تعداد بازدید</td>
+                            <td>تاریخ درج روزنامه</td>
+                            <td>ساعت درج روزنامه</td>
+                            <td>تصویر روزنامه</td>
+                            <td style="width:110px;text-align:center;">عملیات</td>
+                        </tr>
+                    </thead>
+                    <tbody id="myTable">
+                        @foreach (var item in Model)
+                        {
+                            <tr style="font-size:12px;">
+                                <td style="width:60px; text-align:center;">@counter</td>
+                                <td style="text-align:right;">@item.Title</td>
+                                <td>@item.VisitCount</td>
+                                <td>@ConvertDateTime.ConvertMiladiToShamsi(item.Date,"yyyy/MM/dd")</td>
+                                <td>@ConvertDateTime.ConvertMiladiToShamsi(item.Time,"HH:mm")</td>
+
+                                <td>
+                                    <img src="/upload/NewsPaperImage/@item.Image" style="width:60px;height:65px" />
+                                </td>
+                                <td>
+                                    <div class="row">
+
+                                        <a style="height:30px; width:40px; font-size:9px; margin-bottom:3px;" class="btn customBlue1"
+                                   asp-action="Edit" asp-route-NewsPaperId="@item.Id" title="ویرایش" data-toggle="tooltip" data-placement="top">
+                                            <i class="glyphicon glyphicon-edit"></i>
+                                        </a>
+
+                                        <a style="height:30px; width:40px; font-size:9px; margin-bottom:3px;" asp-action="Delete" asp-route-id="@item.Id"
+                                           data-toggle="modal" data-target="#modal-action" class="btn customRed1">
+                                            <i class="glyphicon glyphicon-trash" title="حذف" data-toggle="tooltip" data-placement="top"></i>
+                                        </a>
+
+                                    </div>
+
+                                </td>
+                            </tr>
+                            counter++;
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+
+</div>
+
+@* Paging *@
+@Html.Partial("Paginations/_newsPaperPaging")
+
+
+@Html.Partial("_Modal", new BootstrapModel { ID = "modal-action", Size = BootstrapModel.ModalSize.Medium })
+
+@section AdminScripts{
+    <script src="~/admin/assets/js/modal/modal.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $("#mySearch").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $("#myTable tr").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+    </script>
+
+
+    @*برای تایتل دکمه ها*@
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+}
+

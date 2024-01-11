@@ -1,0 +1,417 @@
+﻿@font-face {
+    font-family: Vazir;
+    src: url('../fonts/Vazir-FD-WOL.eot');
+    src: url('../fonts/Vazir-FD-WOL.eot?#iefix') format('embedded-opentype'), url('../fonts/Vazir-FD-WOL.woff') format('woff'), url('../fonts/Vazir-FD-WOL.ttf') format('truetype');
+    font-weight: normal;
+}
+
+
+* { /*end*/
+    margin: 0px;
+    padding: 0px;
+    border: 0px;
+}
+
+body { /*end*/
+    font-family: 'Vazir', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 400;
+    background-color: rgb(251,251,251);
+}
+
+img { /*end*/
+    padding: 0;
+    margin: 0;
+}
+
+a { /*end*/
+    text-align: center;
+    color: black;
+}
+
+    a:hover { /*end*/
+        text-decoration: none;
+        color: green;
+    }
+
+
+#menu {
+    background-color: rgb(240,240,240);
+}
+
+    #menu nav {
+        background-color: green;
+    }
+
+    #menu .navbar-inverse .navbar-nav > li > a {
+        color: rgb(220,220,220);
+    }
+
+        #menu .navbar-inverse .navbar-nav > li > a:hover {
+            color: white !important;
+            /*border-bottom-width: 2px;
+            border-bottom-style: solid;
+            border-bottom-color: white;*/
+        }
+
+
+#content {
+    padding-top: 10px;
+    background-color: rgb(240,240,240);
+}
+
+#content-body {
+    padding-top: 5px;
+    background-color: rgb(240,240,240);
+}
+
+#adverse img { /*end*/
+    border-radius: 3px;
+}
+
+.advers-div { /*end*/
+    margin-bottom: 8px;
+}
+
+.site-header-text { /*end*/
+    color: brown;
+    padding-top: 10px;
+    height: 115px;
+}
+
+#mybrand { /*end*/
+    margin-right: 75px;
+}
+
+.hr { /*end*/
+    /*margin: 3px 0 3px 0;*/
+    color: green;
+    border: 1px solid;
+    margin-top: 8px;
+    border-radius: 15px;
+    margin-bottom: 8px;
+    width: 100%;
+}
+
+.list-daste { /*end*/
+    list-style: none;
+    font-size: 12px;
+    line-height: 25px;
+    padding-top: 8px;
+}
+
+.badge { /*end*/
+    background-color: green;
+    border-radius: 5px;
+    padding: 6px;
+    margin-left: 5px;
+    font-size: 11px;
+}
+
+#daste-bandi { /*end*/
+    border-radius: 2px;
+    padding-top: 8px;
+    border: 1px solid rgb(200,200,200);
+    background-color: white;
+    padding-right: 10px;
+    padding-left: 3px;
+    margin-bottom: 10px;
+}
+
+#newsDetails {
+    border-radius: 2px;
+    padding-top: 8px;
+    border: 1px solid rgb(200,200,200);
+    background-color: white;
+    padding-right: 12px;
+    padding-left: 10px;
+    padding-top: 15px;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+}
+
+#rooznameha { /*end*/
+    border-radius: 2px;
+    padding-top: 8px;
+    border: 1px solid rgb(200,200,200);
+    background-color: white;
+    padding-right: 5px;
+    padding-left: 3px;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+#nazarsanji { /*end*/
+    border-radius: 2px;
+    padding-top: 8px;
+    border: 1px solid rgb(200,200,200);
+    background-color: white;
+    padding-right: 10px;
+    padding-left: 3px;
+    margin-bottom: 10px;
+}
+
+#login {
+    border-radius: 2px;
+    padding-top: 8px;
+    border: 1px solid rgb(200,200,200);
+    background-color: white;
+    padding-right: 10px;
+    padding-left: 3px;
+    margin-bottom: 10px;
+}
+
+#frmLogin {
+    font-size: 13px;
+    margin-top: 26px;
+}
+
+    #frmLogin div {
+        margin-bottom: 10px;
+    }
+
+#content-nazarsanji { /*end*/
+    padding-top: 15px;
+}
+
+#matn-nazarsanji { /*end*/
+    padding-right: 12px;
+    margin-bottom: 20px;
+    font-size: 13px;
+}
+
+#content-nazarsanji td { /*end*/
+    list-style: none;
+    padding-right: 25px;
+    height: 10px;
+}
+
+.header-lastnews { /*end*/
+    color: #ff6a00;
+    margin-right: 10px;
+}
+
+.ul-title-color { /*end*/
+    color: #ff6a00;
+}
+
+
+#main-slider { /*end*/
+    border-radius: 2px;
+    /*padding-top: 8px;*/
+    border: 1px solid rgb(200,200,200);
+    background-color: white;
+    /*padding-right: 10px;
+    padding-left: 3px;*/
+    margin-bottom: 10px;
+}
+
+    #main-slider img { /*end*/
+        width: 100%;
+        height: 250px;
+        border-radius: 2px;
+    }
+
+.on-the-slider {
+    width: 150px;
+    height: 30px;
+    background-color: black;
+    float: right;
+}
+
+
+.bottum-slider { /*end*/
+    background-color: white;
+    font-size: 12px;
+    line-height: 1.5;
+    padding: 5px;
+    padding-bottom: 15px;
+}
+
+
+.adverse-mainSlide-buttom { /*end*/
+    width: 100%;
+    border-radius: 2px;
+    margin-bottom: 12px;
+}
+
+
+#special-news {
+    border-radius: 2px;
+    padding-top: 4px;
+    border: 1px solid rgb(200,200,200);
+    background-color: white;
+    padding-right: 3px;
+    padding-left: 3px;
+    margin-bottom: 10px;
+}
+
+
+.matn-vije { /*end*/
+    text-align: right;
+    padding-right: 8px;
+    color: rgb(60,60,60);
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+
+#akhbare-vije { /*end*/
+    padding-bottom: 15px;
+}
+
+    #akhbare-vije td img {
+        width: 80px;
+        height: 80px;
+    }
+
+    #akhbare-vije td {
+        border: 1px solid black;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#last-video { /*end*/
+    border-radius: 2px;
+    padding-top: 4px;
+    border: 1px solid rgb(200,200,200);
+    background-color: white;
+    padding-right: 3px;
+    padding-left: 3px;
+    margin-bottom: 10px;
+}
+
+
+#video-content {
+    padding: 3px;
+}
+
+
+    #video-content img {
+        width: 100%;
+        border-radius: 4px;
+    }
+
+.glyphcenter-transition { /*end*/
+    position: relative;
+    transition-duration: 0.3s;
+}
+
+    .glyphcenter-transition:hover { /*end*/
+        box-shadow: 2px 2px 9px 1px black;
+        transition-duration: 0.4s;
+    }
+
+
+    .glyphcenter-transition .glyphicon { /*end*/
+        position: absolute;
+        top: 50%;
+        margin-top: -17px; /* half icon's height */
+        left: 50%;
+        margin-left: -17px; /* half icon's width */
+        color: rgb(220,220,220);
+        font-size: 34px;
+        opacity: .75;
+        transition-duration: 0.3s;
+    }
+
+    .glyphcenter-transition:hover .glyphicon { /*end*/
+        opacity: 1;
+        transition-duration: 0.4s;
+    }
+
+.set-posi {
+    margin-bottom: 19px;
+}
+
+
+
+
+.videoThumbnail_caption { /*end*/
+    font-size: 11px;
+    padding: 3px 0;
+    line-height: 2;
+    color: #333;
+    text-align: justify;
+    text-justify: trim;
+}
+
+
+.customize-row { /*end*/
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+
+
+.btn-more-video { /*end*/
+    border: 1px solid rgb(180,180,180);
+    padding: 10px;
+}
+
+.margin-from-above { /*end*/
+    margin-top: 15px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+#main-footer { /*end*/
+    background-color: #333;
+    color: #fff;
+}
+
+
+.format-footer-text { /*end*/
+    font-size: 12px;
+    line-height: 1.5;
+    padding-top: 12px;
+    padding-bottom: 10px;
+}
+
+.footer-icon { /*end*/
+    padding-top: 12px;
+    padding-bottom: 10px;
+}
+
+    .footer-icon img { /*end*/
+        width: 40px;
+        height: 40px;
+        margin-right: 15px;
+    }
+
+
+.line-sefid { /*end*/
+    padding: 10px;
+    font-size: 12px;
+    border-top: 1px solid #ccc;
+    margin-top: 15px;
+    margin-bottom: 20px;
+}
+
+#arna-logo-footer {
+    /*position: relative;*/
+    display: inline-block;
+    padding: 5px;
+}

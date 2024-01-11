@@ -1,0 +1,42 @@
+﻿@model Comment
+
+@{
+    Layout = null;
+}
+
+<form asp-controller="Comment" asp-action="AcceptOrReject" method="post">
+    <div class="modal-header" style="background-color:@ViewBag.theme; color:white; border-radius:5px 5px 0 0;">
+        <button type="button" class="close pull-left" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title marginMod">@ViewBag.ViewTitle</h4>
+    </div>
+
+
+    @if (Model.Status == true)
+    {
+        <div class="modal-body form-horizontal">
+            آیا از عدم تایید و نمایش ندادن نظر
+
+            " <span style="font-weight:bold;">@Model.Message</span> "
+            مطمئن هستید؟
+        </div>
+    }
+    else
+    {
+        <div class="modal-body form-horizontal">
+            آیا از تایید و نمایش نظر
+
+            " <span style="font-weight:bold;">@Model.Message</span> "
+            مطمئن هستید؟
+        </div>
+    }
+
+
+    <div class="modal-footer" style="text-align:left;">
+        <button class="btn btn-default" type="button" style="width:80px; border-radius:20px;" data-dismiss="modal">بازگشت</button>
+        <button type="submit" class="btn" style="width:80px; border-radius:20px; color:white; background-color:@ViewBag.theme">
+            تایید
+        </button>
+    </div>
+
+</form>
+

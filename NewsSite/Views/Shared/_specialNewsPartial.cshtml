@@ -1,0 +1,32 @@
+﻿@model IEnumerable<News>
+
+<div id="special-news">
+
+    <div>
+        <span class="header-lastnews">اخبار ویژه</span>
+
+        <div class="hr"></div>
+
+        <div>
+            <div id="akhbare-vije">
+                <div class="row">
+
+
+                    @foreach (var item in Model)
+                    {
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" style="margin-bottom:15px;">
+                            <a asp-controller="Home" asp-action="NewsDetails" asp-route-Id="@item.NewsId">
+                                <div class="media media-right">
+                                    <img src="/upload/indexImage/@item.IndexImage" style="width: 90px; height: 80px;" />
+   
+                                </div>
+                                <div class="media media-body matn-vije">@item.Title</div>
+                            </a>
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

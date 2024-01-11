@@ -1,0 +1,115 @@
+﻿@model IndexModel
+
+<style>
+    .list-content-body figure {
+        float: right;
+        margin-left: 10px
+    }
+
+    #news-page-list { /*end*/
+        border-radius: 4px;
+        padding-top: 10px;
+        border: 1px solid rgb(200,200,200);
+        background-color: white;
+        padding-right: 5px;
+        padding-left: 3px;
+        margin-bottom: 50px;
+    }
+
+</style>
+
+<div id="container" class="container-fluid" style="background-color: white;">
+
+    <!--Start Header-->
+    @Html.Partial("_headerPartial", Model.Adver.Where(a => a.AdverLocation == 1))
+    <!--End Header-->
+    <!--Start Menu-->
+    @Html.Partial("_menuPartial")
+    <!--End Menu-->
+    <!--Start Content-->
+    <div class="row" id="content">
+        <div id="content-body" class="container">
+            <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">
+
+                @if (Model.contactUs != null)
+                {
+                    <div id="news-page-list" class="widget widget-bordered title-a widget-page">
+
+                        <article style="padding:5px;">
+                            <section class="list-content-body">
+                                <h4></h4>
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th colspan="2"> راه های ارتباط با ما  </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr style="background-color: aliceblue;">
+                                            <th>تلفن تماس <a class="fa fa-phon"></a></th>
+                                            <td>@Model.contactUs.Tel</td>
+                                        </tr>
+
+                                        <tr style="background-color: aliceblue;">
+                                            <th>ایمیل</th>
+                                            <td>@Model.contactUs.Email</td>
+                                        </tr>
+                                    </tbody>
+
+
+                                </table>
+
+                                @*                            <div style="border:1px solid;border-radius:5px; ">
+
+                            @Model.contactUs.Tel
+                            <hr style="color:cornflowerblue;"/>
+                            @Model.contactUs.Email
+                            </div>*@
+
+                            </section>
+                        </article>
+                    </div>
+
+                }
+                else
+                {
+                    <div class="col-md-12 alert alert-danger" style="margin-bottom: 110px;margin-top: 110px;text-align: center;">
+                        <span class="text-danger text-center">
+                            محتوایی برای نمایش وجود ندارد.
+                        </span>
+                    </div>
+                }
+
+            </div>
+            <!--پایان محتوا-->
+            <div id="second-part" class="col-lg-4 col-md-4 col-xs-12 col-sm-12">
+
+                @if (Model.InternalNews.Any() || Model.ForeignNews.Any() || Model.LastNews.Any() || Model.privateNews.Any())
+                {
+                    <!--Start Category-->
+                    @Html.Partial("_categoryPartial")
+                    <!--End Category-->
+                }
+
+                @if (Model.GetNewsPapers.Any())
+                {
+                    <!--Start Newspaper-->
+                    @Html.Partial("_newspaperPartial",Model.GetNewsPapers)
+                    <!--End Newspaper-->
+                }
+
+            </div>
+            <!--پایان دسته بندی-->
+            <!--start tabligh-->
+            @Html.Partial("_advertiesPartial", Model.Adver)
+            <!--end tabligh-->
+        </div>
+    </div>
+    <!--End Content-->
+    <!--Start footer-->
+    @Html.Partial("_footerPartial",Model.social)
+    <!--End Footer-->
+
+</div>
+
+

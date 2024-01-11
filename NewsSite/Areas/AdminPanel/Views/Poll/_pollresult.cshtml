@@ -1,0 +1,65 @@
+﻿@model Poll
+@inject IUnitOfWork unitOfWork
+
+@{
+    var answerList = unitOfWork.pollOptionUW.Get(a => a.PollID == Model.PollId);
+}
+
+<div class="modal-header" style="background-color:#2C3E50; color:white; border-radius:5px 5px 0 0;">
+    <button type="button" class="close pull-left" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h4 class="modal-title marginMod">نتیجه نظرسنجی</h4>
+</div>
+
+
+<style>
+    .chartClass {
+        width: 280px;
+        height: 250px;
+        margin: 0 auto;
+    }
+</style>
+
+@* نمایش نمودار نتایج*@
+<div id="pie-chart" class="chartClass"></div>
+
+<hr style="height:1px;color:green" />
+
+<span style="margin-right:20px;color:green;font-weight:bold;">نمایش تعداد آرا به ازای هر پاسخ</span>
+<hr style="height:1px;color:green" />
+
+@foreach (var item in answerList)
+{
+    <div style="margin-right:15px">
+        @item.Answer : @item.VouteCount رای
+    </div>
+}
+
+<div class="modal-footer" style="text-align:left;">
+    <button class="btn btn-default" type="button" style="width:80px;" data-dismiss="modal">بازگشت</button>
+
+</div>
+
+<div class="hidden" id="getListofAnswer">@ViewBag.getListofAnswer</div>
+
+
+<script src="~/site/js/chart/jquery.flot.js"></script>
+<script src="~/site/js/chart/jquery.flot.pie.js"></script>
+@* chart *@
+    <script>
+
+        var data = $('#getListofAnswer').text().split(",");
+        var dataObject = $.parseJSON(data);
+
+        var options = {
+            series: {
+                pie: { show: true }
+            },
+            legend: {
+                show: false
+            }
+        };
+
+        $.plot($("#pie-chart"), dataObject, options);
+    </script>
+
+

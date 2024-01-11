@@ -1,0 +1,50 @@
+﻿@model IEnumerable<Advertising>
+
+
+<div class="row hidden-xs hidden-sm site-header-text" id="header">
+    <!--Start Header-->
+    <div class="container">
+        <div class="col-lg-3 col-md-3">
+            <div class="row">
+                <img src="/site/img-index/index.png" />
+            </div>
+
+            <div class="row pull-right">
+                <span>وبسایت رسمی نود</span>
+            </div>
+        </div>
+
+        @if (Model.Any())
+        {
+            @foreach (var item in Model)
+            {
+                <a href="@item.Link">
+                    <div class="col-lg-6 col-md-6">
+                        <img src="/upload/advImage/@item.GifPath" />
+                    </div>
+                </a>
+            }
+        }
+        else
+        {
+
+            <div class="col-lg-6 col-md-6" style="text-align: center;">
+                <img src="/upload/advImage/logo.png" />
+            </div>
+
+        }
+
+        <div class="col-lg-3 col-md-3" style="float: left;">
+
+            <div class="row">
+                <img src="/site/img-index/index1.png" class="pull-left" />
+            </div>
+            <br />
+            <div class="row pull-left">
+                <span>شبکه سه سیما</span>
+            </div>
+
+        </div>
+    </div>
+</div>
+

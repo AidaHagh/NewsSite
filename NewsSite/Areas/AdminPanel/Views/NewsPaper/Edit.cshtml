@@ -1,0 +1,176 @@
+﻿@model NewsPaperViewModel
+@{
+    ViewData["Title"] = "ویرایش روزنامه";
+    Layout = "~/Areas/AdminPanel/Views/Shared/_AdminLayout.cshtml";
+
+
+}
+
+
+<div class="content">
+
+    <div class="panel panel-heading panelstyle">
+        <span style="font-weight:bold;">
+            <i class="fa fa-edit"></i>
+          فرم  @ViewData["Title"]
+        </span>
+    </div>
+
+
+    <div class="panel panel-body container-fluid panelstyle">
+
+        <form asp-controller="NewsPaper" asp-action="Edit" method="post">
+            <input asp-for="Id" hidden />
+            <div class="col-md-6 col-xs-12">
+
+
+                <!--Title-->
+                <div>
+                    <label asp-for="Title" class="control-label col-md-3 col-xs-12"></label>
+                    <div class="col-md-9 col-xs-12">
+                        <input asp-for="Title" type="text" class="form-control custominput2" placeholder="عنوان خبر ..." autocomplete="off" />
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+                </div>
+
+      
+                <!--NewsPaperDate-->
+                <div style="margin-bottom:15px;">
+                    <label asp-for="Date" class="control-label col-md-3 col-xs-12" for="BirthdayDate"></label>
+                    <div class="input-group col-md-9 col-xs-12 " style="padding-left: 9px;padding-right: 9px;">
+                        <div class="input-group-addon brd-icon" style="background-color: #e6ece6;">
+
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </div>
+                        <input asp-for="Date" id="newsPaperDate" name="newsPaperDate" type="text" class="form-control custominput2" style="background-color: #e6ece6;" value="@ConvertDateTime.ConvertMiladiToShamsi(DateTime.Now,"yyyy/MM/dd")" readonly>
+
+                    </div>
+                </div>
+
+                <!--NewsPaperTime-->
+                <div style="margin-bottom:15px;">
+                    <label asp-for="Time" class="control-label col-md-3 col-xs-12" for="BirthdayDate"></label>
+                    <div class="input-group col-md-9 col-xs-12 " style="padding-left: 9px;padding-right: 9px;">
+                        <div class="input-group-addon brd-icon" style="background-color: #e6ece6;">
+                            <span class="glyphicon glyphicon-time"></span>
+                        </div>
+                        <input asp-for="Time" id="newsPaperTime" name="newsPaperTime" type="text" class="form-control custominput2" style="background-color: #e6ece6;" value="@DateTime.Now.Hour:@DateTime.Now.Minute" readonly>
+                    </div>
+                </div>
+                <!--MetaTag-->
+                <div>
+                    <label asp-for="MetaTag" class="control-label col-md-3 col-xs-12"></label>
+                    <div class="col-md-9 col-xs-12">
+                        <input asp-for="MetaTag" type="text" class="form-control custominput2" autocomplete="off" />
+                    </div>
+                </div>
+
+                <!--MetaDescription-->
+                <div>
+                    <label asp-for="MetaDescription" class="control-label col-md-3 col-xs-12"></label>
+                    <div class="col-md-9 col-xs-12">
+                        <input asp-for="MetaDescription" type="text" class="form-control custominput2" autocomplete="off" />
+                    </div>
+                </div>
+       
+            </div>
+
+            <div class="col-md-6 col-xs-12">
+
+                <!--UserID-->
+                <input type="text" class="hidden" id="userid" name="userid" value="@ViewBag.UserID" />
+                <!--NewsPaperImage-->
+                <div>
+                    <label asp-for="Image" class="control-label col-md-3 col-xs-12"></label>
+                    <div class="col-md-9 col-xs-12">
+                        <div class="col-md-6">
+                            <div class="form-horizontal">
+
+                                <label for="Image" class="btn upimgbtns ">
+                                    انتخاب تصویر
+                                    <i class="icon-file-picture"></i>
+                                </label>
+                                <input asp-for="Image" type="file" accept=".jpg, .png, .tif, .tiff, .jpeg" style="visibility:hidden" />
+                                <span id="spnimageNewsPaper" style="color:black; font-size:12px;"></span>
+
+                                <!--نام جدید تصویر-->
+                                <input id="newImageName" name="newImageName" hidden value="@Model.Image" />
+
+                                <input type="button" value="آپلود و نمایش تصویر" id="btnupload" onclick="UploadImage()" class="btn upimgbtns" />
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 col-xs-6">
+                            <img id="imgNewsPaperimage" src="~/upload/NewsPaperImage/@Model.Image"
+                                 style="height:130px; width:110px; margin:5px auto; border:1px solid gray; background-size:100%; width:100%;border-radius:3px;" />
+
+                            <div id="divmessage" class="text-center hidden"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-12 form-group" style="margin-top:15px;">
+
+                <input type="submit" value="ذخیره اطلاعات" class="btn customGreen1 pull-right" />
+
+                <a asp-controller="NewsPaper" asp-action="Index" value="برگشت" class="btn customRed pull-right">بازگشت</a>
+
+            </div>
+        </form>
+    </div>
+
+</div>
+
+@section AdminScripts{
+
+    <script>
+        $("#Image").change(function () {
+            var filename = this.files[0].name;
+            $("#spnimageNewsPaper").html(filename);
+        });
+    </script>
+
+    <script>
+        var UploadImage = function () {
+            var data = new FormData;
+            var file = $("#Image").get(0);
+            var files = file.files;
+
+            for (var i = 0; i < files.length; i++) {
+                data.append('filearray', files[i]);
+            }
+            data.append('path', "upload\\NewsPaperImage\\");
+
+            $.ajax({
+                type: "post",
+                url: '@Url.Action("UploadImageFile","NewsPaper", new { area = "AdminPanel"})',
+                data: data,
+                contentType: false,
+                processData: false
+
+            }).done(function (result) {
+                if (result.status == "success") {
+                    $("#imgNewsPaperimage").attr('src', "\\upload\\NewsPaperImage\\" + result.imagename);
+                    $("#divmessage").text("آپلود موفقیت آمیز بود.");
+                    $("#divmessage").css("color", "green");
+                    $("#divmessage").removeClass("hidden");
+
+                    $("#newImageName").val(result.imagename);
+                }
+
+            }).fail(function (result) {
+                if (result.status != "success") {
+                    $("#divmessage").css("color", "red");
+                    $("#divmessage").removeClass("hidden");
+                    $("#divmessage").text("در حین آپلود اشکالی بوجود آمد.");
+                }
+            });
+
+        }
+    </script>
+
+
+
+}

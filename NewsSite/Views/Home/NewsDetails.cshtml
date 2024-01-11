@@ -1,0 +1,173 @@
+﻿@model IndexModel
+@{
+    ViewData["Title"] = "سایت خبری 90";
+}
+
+
+<div id="container" class="container-fluid" style="background-color: white;">
+
+    <!--Start Header-->
+    @Html.Partial("_headerPartial" ,Model.Adver.Where(a=>a.AdverLocation==1))
+    <!--End Header-->
+    <!--Start Menu-->
+    @Html.Partial("_menuPartial")
+    <!--End Menu-->
+
+    <div class="row" id="content">
+        <!--Start Content-->
+
+        <div id="content-body" class="container">
+
+
+            <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">
+
+                @Html.Partial("_newsDetail")
+            </div>
+
+            <div id="second-part" class="col-lg-4 col-md-4 col-xs-12 col-sm-12">
+
+                <!--Start Category-->
+                @Html.Partial("_categoryPartial")
+                <!--End Category-->
+                <!--Start Newspaper-->
+                @Html.Partial("_newspaperPartial",Model.GetNewsPapers)
+                <!--End Newspaper-->
+
+
+            </div>
+            <!--پایان دسته بندی-->
+            <!--Start Adverties-->
+            @Html.Partial("_advertiesPartial",Model.Adver)
+            <!--End Adverties-->
+        </div>
+    </div>
+    <!--End Content-->
+    <!--Start footer-->
+    @Html.Partial("_footerPartial",Model.social)
+    <!--End Footer-->
+
+</div>
+
+
+
+
+@section Scripts{
+
+    <script>
+        $('#myTabs a').click(function (e) {
+            e.preventDefault()
+            $(this).tab('show')
+        })
+    </script>
+
+
+    @*دستورات ثبت نظر*@
+    <script>
+        var getcommentid = -1;//مقدار - یک ابتدا میدهیم
+        $('#frmComment').submit(function (e) {
+            e.preventDefault();
+
+
+            if ($('#txtEmail').val == '') {
+                alert('');
+
+            }
+
+            var form = $(this);
+            $.ajax({
+                type: "post",
+                url: '@Url.Action("InsertComment","Home")',
+                cache: false,
+                data: form.serialize() + "&cmid=" + getcommentid//باید سی ام ای دی را اینجا مینویسیم
+
+            }).done(function (msg) {
+                if (msg.status === "failModel") {
+                    $('#successBox').removeClass('hidden').addClass('alert-danger').text('لطفا اطلاعات خواسته شده را کامل کنید');
+
+                }
+
+                if (msg.status === "success") {
+                    $('#successBox').removeClass('hidden').removeClass('alert-danger').addClass('alert-success').text('نظر شما با موفقیت ثبت شد و پس از تایید نمایش داده می شود.');
+                    $('#txtEmail').val('');
+                    $('#txtFullname').val('');
+                    $('#txtMessage').val('');
+                }
+
+            }).fail(function (msg) {
+                if (msg.status === "fail") {
+                    $('#successBox').removeClass('hidden').addClass('alert-danger').text('سیستم موقتا قطع می باشد. لطفا بعدا سعی نمایید');
+
+                }
+            });
+        });
+
+    </script>
+
+    @* دستورات مربوط به لایک کامنت *@
+    <script>
+        function submitLike(commentid) {
+            $.ajax({
+                type: "post",
+                url: '@Url.Action("Like","Home")',
+                data: { cmid: commentid }
+            }).done(function (msg) {
+                if (msg.status === 'success') {
+                    $(`.LikeClass[data-commentid=${msg.backid}]`).text(msg.result);
+                }
+            });
+
+        }
+
+        function submitDislike(commentid) {
+            $.ajax({
+                type: "post",
+                url: '@Url.Action("DisLike","Home")',
+                data: { cmid: commentid }
+            }).done(function (msg) {
+                if (msg.status === 'success') {
+                    $(`.DisLikeClass[data-commentid=${msg.backid}]`).text(msg.result);
+                }
+            });
+
+        }
+    </script>
+
+    @* دستورات مربوط به پاسخ به دیدگاه *@
+    <script>
+        function replyComment(commentid) {
+
+            if ($(`.btnreply[data-btn=${[commentid]}]`).attr('data-status') == 1) {
+
+                //اگر کاربر روی پاسخ به کامنت کلیک کرد و مجدد روی دکمه پاسخ به کامنت دیگری کلیک کرد
+                //استایلهای باقیمانده حذف شود
+                $('.btnreply').css('background-color', '#fff');
+                $('.spanfa').removeClass('fa-close').addClass('fa-reply');
+                $('.spanreplytext').text('پاسخ به دیدگاه');
+                $('.btnreply').attr('data-status', "1");
+
+
+                $('#commentdiv').appendTo(`.divappend[data-replyid=${[commentid]}]`);
+                $(`.spanreplytext[data-spanreplytext=${[commentid]}]`).text('لغو');
+                $(`.spanfa[data-spanfa=${[commentid]}]`).removeClass('fa-reply').addClass('fa-close');
+                $(`.btnreply[data-btn=${[commentid]}]`).css('background-color', '#d9534f');
+                $(`.btnreply[data-btn=${[commentid]}]`).attr('data-status', '2');
+                getcommentid = $(`.btnreply[data-btn=${[commentid]}]`).attr('data-btn');
+            }
+            else {
+                $('#commentdiv').appendTo('#maincommentdiv');
+                $(`.spanreplytext[data-spanreplytext=${[commentid]}]`).text('پاسخ به دیدگاه');
+                $(`.spanfa[data-spanfa=${[commentid]}]`).removeClass('fa-close').addClass('fa-reply');
+                $(`.btnreply[data-btn=${[commentid]}]`).css('background-color', '#fff');
+                $(`.btnreply[data-btn=${[commentid]}]`).attr('data-status', '1');
+
+
+                $('#successBox').addClass('hidden');
+            }
+
+        }
+    </script>
+
+
+
+
+}

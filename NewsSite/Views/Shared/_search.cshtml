@@ -1,0 +1,139 @@
+﻿@model IEnumerable<News>
+
+<style>
+    .list-content-body figure {
+        float: right;
+        margin-left: 10px
+    }
+
+    #news-page-list { /*end*/
+        border-radius: 2px;
+        padding-top: 2px;
+        border: 1px solid rgb(200,200,200);
+        background-color: white;
+        padding-right: 5px;
+        padding-left: 3px;
+        margin-bottom: 10px;
+    }
+</style>
+
+@if (Model != null)
+{
+
+    <div id="news-page-list" class="widget widget-bordered title-a widget-page">
+        @if (ViewBag.searchVal != null)
+        {
+            <h2 style="font-size:16px; color:darkorange; margin:10px;">
+                نتايج جستجو براي عبارت "@ViewBag.searchVal"
+            </h2>
+            <hr class="hr" />
+        }
+
+        @if (ViewBag.menudesc != null)
+        {
+            <h2 style="font-size:16px; color:darkorange; margin:10px;">
+                @ViewBag.menudesc
+            </h2>
+            <hr class="hr" />
+        }
+
+
+        @foreach (var item in Model)
+        {
+            <article style="padding:5px;">
+                <section class="list-content-body">
+                    <div class="small text-left" style="float:left; position:relative; top:3px;">
+                        <span>
+                            <i class="glyphicon glyphicon-calendar"></i>
+                            <span>
+                                @ConvertDateTime.ConvertMiladiToShamsi(item.NewsDate,"yyyy/MM/dd")
+                            </span>
+                        </span>
+                        <span>
+                            <i class="glyphicon glyphicon-time"></i>
+                            <span>
+                                @ConvertDateTime.ConvertMiladiToShamsi(item.NewsTime,"HH:mm")
+                            </span>
+                        </span>
+                        <span>
+                            <i class="glyphicon glyphicon-user"></i>
+                            <span>@item.VisitCount</span>
+                        </span>
+                    </div>
+                    <figure>
+                        <a asp-controller="Home" asp-action="NewsDetails" asp-route-id="@item.NewsId">
+                            <img alt="@item.Title" width="150" height="105" src="~/upload/indexImage/@item.IndexImage">
+                        </a>
+                    </figure>
+                    <div style="max-width:80%;">
+                        <h3 style="font-size:14px; font-weight:600;">
+                            <a asp-controller="Home" asp-action="NewsDetails" asp-route-id="@item.NewsId">
+                                @item.Title
+                            </a>
+                        </h3>
+                    </div>
+                    <summary>
+                        @item.Abstract
+                    </summary>
+                    <div class="clearfix"></div>
+                </section>
+            </article>
+
+            <hr style="margin:0;" />
+        }
+
+    </div>
+    @if (ViewBag.PageCount > 1)
+    {
+        <div class="row text-center">
+
+            <nav>
+                <ul class="pagination">
+
+                    @if ((int)ViewBag.PageID > 1)
+                    {
+                        @* Previous *@
+                        <li>
+
+                            <a asp-controller="Home" asp-action="MenuResult" asp-route-Page="@((int)ViewBag.PageID - 1)">
+                                <span>قبلی</span>
+                            </a>
+                        </li>
+                    }
+
+                    @for (int i = Math.Max(1, (int)ViewBag.PageID - 2); i <= Math.Min((int)ViewBag.PageCount, (int)ViewBag.PageID + 2); i++)
+                    {
+                        <li class="@(((int)ViewBag.PageID==i)?" active":"")">
+                            <a asp-controller="Home" asp-action="MenuResult" asp-route-page="@i">
+                                @i
+                                <span class="sr-only"></span>
+                            </a>
+                        </li>
+                    }
+
+
+                    @if ((int)ViewBag.PageID <= (int)ViewBag.PageCount - 1)
+                    {
+                        @* Next *@
+                        <li>
+                            <a asp-controller="Home" asp-action="MenuResult" asp-route-Page="@((int)ViewBag.PageID + 1)">
+                                <span>بعدی</span>
+                            </a>
+                        </li>
+
+                    }
+                </ul>
+            </nav>
+        </div>
+
+    }
+}
+else
+
+{
+    <div class="col-md-12 alert alert-danger" style="margin-bottom: 110px; margin-top: 100px;text-align: center;">
+
+        <span class=" " style="font-size:18px;">جستجو نتيجه اي نداشت!!!</span>
+
+    </div>
+}

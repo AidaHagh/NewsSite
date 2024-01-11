@@ -1,0 +1,79 @@
+﻿@{
+    ViewData["Title"] = "چارت اجزای سیستم";
+    Layout = "~/Areas/AdminPanel/Views/Shared/_AdminLayout.cshtml";
+
+}
+
+<div class="content">
+
+    <div class="panel panel-heading panelstyle">
+        <span style="font-weight:bold;">
+            <i class="icon-accessibility"></i>
+            @ViewBag.ViewTitle
+        </span>
+    </div>
+
+    <div class="panel panel-body container-fluid overflow-auto panelstyle" >
+        <div id="jstreesyspart">
+        </div>
+        <form asp-controller="Role" asp-action="AccessRight" method="post">
+
+            <div class="col-xs-12 form-group" style="margin-top:15px;">
+
+                <input hidden name="userId" id="userId" value="@ViewBag.userId" />
+                <input hidden name="selectedItems" id="selectedItems" />
+
+                <input type="submit" style="border:1px solid gray; border-radius:3px;"
+                       value="ثبت دسترسی" class="btn customGreen1 pull-right" />
+
+                <a asp-controller="User" asp-action="Index" style="border:1px solid gray; border-radius:3px; margin-left:20px"
+                   value="برگشت" class="btn customRed pull-right">بازگشت</a>
+
+            </div>
+
+            <input class="hidden" value="@ViewBag.roleList" id="divrolelist" />
+
+        </form>
+
+    </div>
+</div>
+
+
+
+@section AdminScripts{
+    <script>
+        $(function () {
+            $("#jstreesyspart").on("changed.jstree", function (e, data) {
+
+                var i, j;
+                var postedItems = [];
+
+                j = data.selected.length;
+                for (var i = 0; i < j; i++) {
+                    postedItems.push({
+                        text: data.instance.get_node(data.selected[i]).text,
+                        id: data.selected[i],
+                        parent: data.node.parents[0]
+                    });
+                }
+                $('#selectedItems').val(JSON.stringify(postedItems))
+            }).jstree({
+                "core": {
+                    "themes": {
+                        "variant": "large"
+                    },
+                    "data": @Html.Raw(ViewBag.Json) ,
+                },
+                "checkbox": {
+                    "Keep_selected_style": false
+                },
+                "plugins": ["wholerow", "checkbox"]
+            }).on("loaded.jstree", function () {
+                $.jstree.reference('#jstreesyspart').open_all();
+            }).on('loaded.jstree', function () {
+                var mydiv = $('#divrolelist').val().split(",");
+                $('#jstreesyspart').jstree(true).select_node(mydiv);
+            });
+        });
+    </script>
+}

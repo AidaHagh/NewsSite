@@ -1,0 +1,62 @@
+﻿@model ApplicationRoleViewModel
+@{
+    ViewData["Title"] = "افزودن اجزای جدید";
+    Layout = "~/Areas/AdminPanel/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<div class="content">
+
+    <div class="panel panel-heading panelstyle">
+        <span style="font-weight:bold;font-size: 18px;">
+            <i class="icon-accessibility"></i>
+            فرم تعریف جز جدید برای زیرمجموعه >>   <span style="color:darkgreen;"> @ViewBag.parentname </span>
+        </span>
+    </div>
+
+
+    <div class="panel panel-body container-fluid panelstyle">
+       
+        <form asp-controller="Role" asp-action="Create" method="post">
+            <div class="col-md-8 col-md-offset-2">
+
+                <!--FaName-->
+                <div>
+                    <div class="col-md-10 col-xs-12">
+                        <label asp-for="FaName" class="control-label col-md-3 col-xs-12 "></label>
+
+                        <input asp-for="FaName" type="text" class="form-control custominput2" placeholder="نام فارسی دسترسی ..." autocomplete="off"/>
+                        <span asp-validation-for="FaName" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <!--Name-->
+                <div>
+                    <div class="col-md-10 col-xs-12 ">
+                        <label asp-for="Name" class="control-label col-md-3 col-xs-12 "></label>
+
+                        <input asp-for="Name" type="text" class="form-control custominput2" placeholder="نام انگلیسی دسترسی..." autocomplete="off" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <!--RoleLevel-->
+                <input asp-for="RoleLevel" value="@ViewBag.id" class="hidden" />
+
+
+
+                <div class="col-xs-12 form-group" style="margin-top:15px;">
+
+                    <input type="submit" style="border:1px solid gray; border-radius:3px;"
+                           value="ذخیره اطلاعات" class="btn customGreen1 pull-right" />
+
+                    <a asp-controller="Role" asp-action="Index" style="border:1px solid gray; border-radius:3px; margin-left:20px"
+                       value="برگشت" class="btn customRed pull-right">بازگشت</a>
+
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>
+

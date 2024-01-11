@@ -1,0 +1,175 @@
+﻿@model AdvertisingViewModel
+@{
+    ViewData["Title"] = "فرم درج تبلیغ";
+    Layout = "~/Areas/AdminPanel/Views/Shared/_AdminLayout.cshtml";
+
+    AdvertisePlace Indexmodel = new AdvertisePlace();
+    List<AdvertisePlace> IndexVm = Indexmodel.AdvertiseDescription();
+
+}
+
+
+<div class="content">
+
+    <div class="panel panel-heading panelstyle">
+        <span style="font-weight:bold;">
+            <i class="glyphicon glyphicon-plus"></i>
+            فرم درج تبلیغ جدید
+        </span>
+    </div>
+
+    <div class="panel panel-body container-fluid panelstyle">
+        <form asp-controller="Advertising" asp-action="Create" method="post" enctype="multipart/form-data">
+
+            <div class="col-md-6 col-xs-12">
+
+                <!--FromDate-->
+                <div style="margin-bottom:15px;">
+                    <label asp-for="FromDate" class="control-label col-md-3 col-xs-12" for="BirthdayDate"></label>
+                    <div class="input-group col-md-9 col-xs-12 " style="padding-left: 9px;padding-right: 9px;">
+                        <div class="input-group-addon brd-icon" style="background-color: #e6ece6;">
+
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </div>
+                        <input asp-for="FromDate" id="fromDateAdv" name="fromDateAdv" type="text" class="form-control custominput" data-mddatetimepicker="true" data-placement="right" data-mdpersiandatetimepicker="" data-trigger="focus" data-enabletimepicker="false" data-mdpersiandatetimepickerselecteddatetime="{&quot;Year&quot;:1399,&quot;Month&quot;:1,&quot;Day&quot;:13,&quot;Hour&quot;:0,&quot;Minute&quot;:0,&quot;Second&quot;:0}" data-mdpersiandatetimepickershowing="true" aria-describedby="popover265350">
+
+                    </div>
+                    <span asp-validation-for="FromDate" style="margin-top:10px;" class="text-danger col-md-offset-3 col-md-9 col-xs-12"></span>
+
+                </div>
+
+                <!--ToDate-->
+                <div style="margin-bottom:15px;">
+                    <label asp-for="ToDate" class="control-label col-md-3 col-xs-12" for="BirthdayDate"></label>
+                    <div class="input-group col-md-9 col-xs-12 " style="padding-left: 9px;padding-right: 9px;">
+                        <div class="input-group-addon brd-icon" style="background-color: #e6ece6;">
+                            <span class="glyphicon glyphicon-time"></span>
+                        </div>
+                        <input asp-for="ToDate" id="toDateAdv" name="toDateAdv" type="text" class="form-control custominput" data-mddatetimepicker="true" data-placement="right" data-mdpersiandatetimepicker="" data-trigger="focus" data-enabletimepicker="false" data-mdpersiandatetimepickerselecteddatetime="{&quot;Year&quot;:1399,&quot;Month&quot;:1,&quot;Day&quot;:13,&quot;Hour&quot;:0,&quot;Minute&quot;:0,&quot;Second&quot;:0}" data-mdpersiandatetimepickershowing="true" aria-describedby="popover265350">
+                    </div>
+                    <span asp-validation-for="ToDate" style="margin-top:10px;" class="text-danger col-md-offset-3 col-md-9 col-xs-12"></span>
+
+                </div>
+
+                <!--Link-->
+                <div>
+                    <label asp-for="Link" class="control-label col-md-3 col-xs-12"></label>
+                    <div class="col-md-9 col-xs-12">
+                        <input asp-for="Link" type="text" class="form-control custominput2" placeholder="https://..." autocomplete="off" />
+                        <span asp-validation-for="Link" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <!--AdverLocation-->
+                <div>
+                    <label asp-for="AdverLocation" class="control-label col-md-3 col-xs-12"></label>
+                    <div class="col-md-9 col-xs-12">
+                        <select asp-for="AdverLocation" asp-items="@(new SelectList(IndexVm,"AdvId","AdvLocationName"))" class="form-control custominput2"></select>
+                        <span asp-validation-for="AdverLocation" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+                <div class="col-md-6 col-xs-12">
+
+                <!--AdvertisingImage-->
+                <div>
+                    <label asp-for="GifPath" class="control-label col-md-3 col-xs-12"></label>
+                    <div class="col-md-9 col-xs-12">
+                        <div class="col-md-6">
+                            <div class="form-horizontal">
+
+                                <label for="GifPath" class="btn upimgbtns ">
+                                    انتخاب تصویر
+                                    <i class="icon-file-picture"></i>
+                                </label>
+                                <input asp-for="GifPath" type="file" accept=".jpg, .png, .tif, .tiff, .jpeg, .gif" style="visibility:hidden" />
+                                <span id="spnimageAdvertising" style="color:black; font-size:12px;"></span>
+
+                                <!--نام جدید تصویر-->
+                                <input id="newImagePathName" name="newImagePathName" hidden />
+
+                                <input type="button" value="آپلود و نمایش تصویر" id="btnupload" onclick="UploadImage()" class="btn upimgbtns" />
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 col-xs-6">
+                            <img id="imgAdvertisingimage" src="~/upload/advImage/advdefault.jpg"
+                                 style="height:130px; width:110px; margin:5px auto; border:1px solid gray; background-size:100%; width:100%;border-radius:3px;" />
+
+                            <div id="divmessage" class="text-center hidden"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-12 form-group" style="margin-top:15px;">
+
+                <input type="submit" value="ذخیره اطلاعات" class="btn customGreen1 pull-right" />
+
+                <a asp-controller="Advertising" asp-action="Index" value="برگشت" class="btn customRed pull-right">بازگشت</a>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+
+
+
+@section AdminScripts{
+
+    <script>
+        $("#GifPath").change(function () {
+            var filename = this.files[0].name;
+            $("#spnimageAdvertising").html(filename);
+        });
+    </script>
+
+    <script>
+        var UploadImage = function () {
+            var data = new FormData;
+            var file = $("#GifPath").get(0);
+            var files = file.files;
+
+            for (var i = 0; i < files.length; i++) {
+                data.append('filearray', files[i]);
+            }
+            data.append('path', "upload\\advImage\\");
+
+            $.ajax({
+                type: "post",
+                url: '@Url.Action("UploadImageFile","Advertising", new { area = "AdminPanel"})',
+                data: data,
+                contentType: false,
+                processData: false
+
+            }).done(function (result) {
+                if (result.status == "success") {
+                    $("#imgAdvertisingimage").attr('src', "\\upload\\advImage\\" + result.imagename);
+                    $("#divmessage").text("آپلود موفقیت آمیز بود.");
+                    $("#divmessage").css("color", "green");
+                    $("#divmessage").removeClass("hidden");
+
+                    $("#newImagePathName").val(result.imagename);
+                }
+
+            }).fail(function (result) {
+                if (result.status != "success") {
+                    $("#divmessage").css("color", "red");
+                    $("#divmessage").removeClass("hidden");
+                    $("#divmessage").text("در حین آپلود اشکالی بوجود آمد.");
+                }
+            });
+
+        }
+    </script>
+
+
+
+}
+
+

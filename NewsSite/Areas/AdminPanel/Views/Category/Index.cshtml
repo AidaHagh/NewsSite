@@ -1,0 +1,125 @@
+﻿@model IEnumerable<Category>
+@{
+    ViewData["Title"] = "لیست دسته بندی اخبار";
+    ViewData["selected"] = "Category";
+
+    Layout = "~/Areas/AdminPanel/Views/Shared/_AdminLayout.cshtml";
+    int counter = 1;
+}
+
+
+
+
+<style>
+    tr:hover td {
+        background-color: #dce4dc;
+    }
+</style>
+
+<div class="content">
+
+    <div class="panel panel-heading panelstyle" >
+
+        <span style="font-weight:bold;">
+            <i class="icon-list"></i>
+            لیست دسته بندی اخبار
+        </span>
+    </div>
+
+    <form asp-action="SearchCategory">
+
+        <div class="panel col-md-12 searchStyle">
+
+            <span style="margin-bottom:5px;">جستجو بر اساس دسته بندی خبر :</span>
+
+            <input type="text" id="textSearch" name="textSearch" value="@ViewBag.textSearch"
+                   style="border: 1px solid gray;width: 300px; border-radius: 4px; height:40px;margin-bottom: 5px;text-align: center;font-weight: bold;" />
+
+            <button type="submit" style="border-radius: 4px;  height: 40px;border: 1px solid;">
+                جستجو
+                <i class="icon-search4"></i>
+            </button>
+
+        </div>
+    </form>
+
+    <div style="margin-bottom:5px;">
+        <a class="btn customPurple1" asp-controller="Category" asp-action="Create">
+            <i class="glyphicon glyphicon-plus"></i>
+            افزودن دسته بندی
+        </a>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-danger text-center" role="alert">
+            <span style="font-weight:bold">عبارت مورد نظر پیدا نشد!</span>
+        </div>
+    }
+    else
+    {
+        <div>
+            <div class="table-responsive"
+                 style=" overflow:auto; border:1px solid gray; border-radius:2px; box-shadow:3px 3px 1px 0 gray;">
+                <table class="table table-bordered" style="background-color:white;">
+                    <thead>
+                        <tr style="font-size:14px; font-weight:bold; background-color:#becbbe;">
+                            <td>ردیف</td>
+                            <td class="text-center">نام دسته</td>
+                            <td class="text-center">توضیحات</td>
+                            <td style="width:140px;text-align:center;">عملیات</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr style="font-size:12px;">
+                                <td style="width:60px; text-align:center;">@counter</td>
+                                <td style="text-align:right;">@item.Title</td>
+                                <td>@item.Description</td>
+                                <td class="text-center">
+                                    <div class="row">
+
+                                        <a style="height:30px; width:40px; font-size:9px; margin-bottom:3px;"
+                                           class="btn customBlue1" asp-action="Edit" asp-route-CategoryId="@item.CategoryId" title="ویرایش" data-toggle="tooltip" data-placement="top">
+                                            <i class="glyphicon glyphicon-edit"></i>
+                                        </a>
+
+                                        <a style="height:30px; width:40px; font-size:9px; margin-bottom:3px;" asp-action="Delete" asp-route-CategoryId="@item.CategoryId"
+                                           data-toggle="modal" data-target="#modal-action" class="btn customRed1">
+                                            <i class="glyphicon glyphicon-trash" title="حذف" data-toggle="tooltip" data-placement="top"></i>
+                                        </a>
+
+                                    </div>
+
+                                </td>
+                            </tr>
+                            counter++;
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+
+</div>
+
+@* Paging *@
+@Html.Partial("Paginations/_categoryPaging")
+
+
+@Html.Partial("_Modal", new BootstrapModel { ID = "modal-action", Size = BootstrapModel.ModalSize.Medium })
+
+@section AdminScripts{
+    <script src="~/admin/assets/js/modal/modal.js"></script>
+
+    @*برای تایتل دکمه ها*@
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+
+}
+

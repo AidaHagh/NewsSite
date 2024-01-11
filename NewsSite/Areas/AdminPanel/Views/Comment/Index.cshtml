@@ -1,0 +1,168 @@
+﻿@using static Common.StaticClase.StaticValue;
+
+@model IEnumerable<Comment>
+@{
+    ViewData["Title"] = "لیست نظرات";
+    ViewData["selected"] = "Comment";
+
+    Layout = "~/Areas/AdminPanel/Views/Shared/_AdminLayout.cshtml";
+    int counter = 1;
+
+    CommentSearchTypeModel comment = new CommentSearchTypeModel();
+    comment.ID = ViewBag.searchTypeselected;
+    List<CommentSearchTypeModel> ListCommentSearch = comment.GetCommentSearch();
+}
+
+<style>
+    tr:hover td {
+        background-color: #dce4dc;
+    }
+</style>
+
+<div class="content">
+    <form asp-controller="Comment" asp-action="SearchComment">
+
+        <div class="panel panel-heading panelstyle">
+
+            <span style="font-weight:bold;">
+                <i class="icon-list"></i>
+                لیست نظرات
+            </span>
+        </div>
+
+        
+        <div class="panel col-md-12 searchStyle">
+
+            <span style="margin-bottom:5px;">جستجو بر اساس :</span>
+            <select asp-for="@comment.ID" style="border:1px solid gray; margin-bottom:5px;border-radius: 4px;height:40px;" id="searchTypeSelected" name="searchTypeSelected"
+                    asp-items="@(new SelectList(ListCommentSearch,"ID","Title"))">
+            </select>
+
+            <input type="text" id="textSearch" name="textSearch" value="@ViewBag.textSearch"
+                   style="border:1px solid gray; width:300px;border-radius: 4px; height:40px; margin-bottom:5px; text-align:center; font-weight:bold;" />
+
+            <button type="submit" style="border-radius: 4px;  height: 40px;border: 1px solid;">
+                جستجو
+                <i class="icon-search4"></i>
+            </button>
+
+        </div>
+    </form>
+
+    <div style="margin-bottom:5px;">
+       @*با برداشتن این قسمت هنگامی که کلمه مورد جستجو وجود ندارد قسمت جستجو ناپدید میشود و با برگشتن هم سایت درست نمیشود *@
+            <i class="icon-comment"></i>
+    
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-danger text-center" role="alert">
+            <span style="font-weight:bold">عبارت مورد نظر پیدا نشد!</span>
+        </div>
+    }
+    else
+    {
+        <div>
+            <div class="table-responsive"
+                 style=" overflow:auto; border:1px solid gray; border-radius:2px; box-shadow:3px 3px 1px 0 gray;">
+                <table class="table table-bordered" style="background-color:white;">
+                    <thead>
+                        <tr style="font-size:14px; font-weight:bold; background-color:#becbbe;">
+                            <td>ردیف</td>
+                            <td>نام و نام خانوادگی</td>
+                            <td class="text-center">ایمیل</td>
+                            <td>IP</td>
+                            <td>تاریخ ثبت</td>
+                            <td>ساعت ثبت</td>
+                            <td class="text-center">عنوان</td>
+                            <td class="text-center">وضعیت</td>
+                            <td class="text-center">متن پیام</td>
+                            <td style="width:110px;text-align:center;">عملیات</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr style="font-size:12px;">
+                                <td style="width:60px; text-align:center;">@counter</td>
+                                <td>@item.FullName</td>
+                                <td>@item.Email</td>
+                                <td>@item.IP</td>
+                                <td>@ConvertDateTime.ConvertMiladiToShamsi(item.CommentDate,"yyyy/MM/dd")</td>
+                                <td>@ConvertDateTime.ConvertMiladiToShamsi(item.CommentTime,"HH:mm")</td>
+                                <td>@item.News.Title</td>
+                                @if (item.Status == true)
+                                {
+                                    <td>
+                                        <span class="badge badge-success" style="width:60px;border-radius:15px">
+                                            تایید شده
+                                        </span>
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td>
+                                        <span class="badge badge-danger" style="width:60px;border-radius:15px">
+                                            تایید نشده
+                                        </span>
+                                    </td>
+                                }
+                                <td>@item.Message</td>
+                                <td class="text-center">
+                                    <div class="row">
+
+                                        @if (item.Status == true)
+                                        {
+                                            <a asp-controller="Comment" asp-action="AcceptOrReject" asp-route-id="@item.Id"
+                                               data-toggle="modal" data-target="#modal-action"
+                                               style="height:30px; width:40px; font-size:9px; margin-bottom:3px;"
+                                               class="btn customYellow1">
+                                                <i class="glyphicon glyphicon-remove" data-toggle="tooltip" data-placement="top" title="عدم تایید"></i>
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <a asp-controller="Comment" asp-action="AcceptOrReject" asp-route-id="@item.Id"
+                                               data-toggle="modal" data-target="#modal-action"
+                                               style="height:30px; width:40px; font-size:9px; margin-bottom:3px;"
+                                               class="btn customGreen1">
+                                                <i class="glyphicon glyphicon-ok" data-toggle="tooltip" data-placement="top" title="تایید "></i>
+                                            </a>
+                                        }
+
+                                        <a style="height:30px; width:40px; font-size:9px; margin-bottom:3px;" asp-action="DeleteComment" asp-route-id="@item.Id"
+                                           data-toggle="modal" data-target="#modal-action" class="btn customRed1">
+                                            <i class="glyphicon glyphicon-trash" data-toggle="tooltip" data-placement="top" title="حذف"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            counter++;
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+
+</div>
+
+@* Paging *@
+@Html.Partial("Paginations/_commentPaging")
+
+
+@Html.Partial("_Modal", new BootstrapModel { ID = "modal-action", Size = BootstrapModel.ModalSize.Medium })
+
+@section AdminScripts{
+    <script src="~/admin/assets/js/modal/modal.js"></script>
+
+    @*برای تایتل دکمه ها*@
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+}
+

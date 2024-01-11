@@ -1,0 +1,17 @@
+﻿@model IEnumerable<Advertising>
+
+
+<div class="col-lg-2 col-md-2 hidden-sm hidden-xs" id="adverse">
+    <!--تبلیغات-->
+    @foreach (var item in Model.Where(a=>a.AdverLocation==5))
+    {
+        <div class="advers-div text-center">
+            <a href="@item.Link">
+                <img src="/upload/advImage/@item.GifPath" />
+
+            </a>
+        </div>
+    }
+ 
+
+</div>

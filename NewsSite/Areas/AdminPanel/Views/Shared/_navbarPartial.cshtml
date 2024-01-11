@@ -1,0 +1,71 @@
+﻿@inject IUnitOfWork unitOfWork
+
+@{
+    var comList = unitOfWork.commentUW.Get(x => x.Status == false);
+}
+<div class="navbar navbar-fixed-top" style="background-color:#2C3E50;">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="#"></a>
+
+        <ul class="nav navbar-nav visible-xs-block">
+            <li><a data-toggle="collapse" data-target="#navbar-mobile" style="color:white;"><i class="icon-tree5"></i></a></li>
+            <li><a class="sidebar-mobile-main-toggle" style="color:white;"><i class="icon-paragraph-justify3"></i></a></li>
+        </ul>
+
+    </div>
+
+    <div class="navbar-collapse collapse" id="navbar-mobile" style="background-color:#2C3E50;">
+        <ul class="nav navbar-nav">
+            <li>
+                <a class="sidebar-control sidebar-main-toggle hidden-xs" style="color:white;"><i class="icon-paragraph-justify3"></i></a>
+            </li>
+        </ul>
+
+        <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown dropdown-user">
+                <a class="dropdown-toggle" data-toggle="dropdown" style="color:white;">
+
+                    <span>امکانات شخصی</span>
+                    <i class="caret"></i>
+                </a>
+
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li>
+                        <a href="#"><i class="icon-user-plus"></i>پروفایل من</a>
+                        @* @foreach (var item in cmList)
+                        {
+                        <li>
+                        <a href="#">
+                        <i class="fa fa-user"></i>
+                        <span style="color:darkblue;font-size:12px">
+                        @item.FullName گفت
+                        </span>
+                        <br/>
+                        <i class="fa fa-comment-o"></i>
+                        <span style="color:darkblue;font-size:12px">
+                        @item.Message
+                        </span>
+                        </a>
+                        </li>
+                        }*@
+
+                    </li>
+
+                    <li>
+                        <a asp-controller="Comment" asp-action="Index">
+                            <span class="badge badge-warning pull-right">@comList.Count()</span> <i class="icon-comment-discussion"></i>آخرین پیام ها
+                        </a>
+                    </li>
+                    <li class="divider"></li>
+                    <form action="/Account/LogOut" method="post">
+                    <li>
+                        <button type="submit" class="btn customRed1" style="width:180px;">
+                            <i class="icon-switch2"></i> خروج از سیستم
+                        </button>
+                    </li>
+                    </form>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>

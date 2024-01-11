@@ -1,0 +1,37 @@
+﻿@model IEnumerable<News>
+@{
+    var isactive = true;
+}
+<div id="main-slider">
+    <div id="carousel-example-generic-main" class="carousel slide" data-ride="carousel">
+
+        <div class="carousel-inner" role="listbox">
+
+            @foreach (var item in Model)
+            {
+                <div class="item @(isactive?Html.Raw("active"):Html.Raw(""))">
+                    <a asp-controller="Home" asp-action="NewsDetails" asp-route-Id="@item.NewsId">
+                        <img src="/upload/indexImage/@item.IndexImage" />
+
+                    </a>
+                    <div class="carousel-inner bottum-slider">
+                        @item.Abstract
+                    </div>
+
+                </div>
+                isactive = false;
+            }
+
+        </div>
+
+        <!-- Controls -->
+        <a class="left carousel-control" href="#carousel-example-generic-main" role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="right carousel-control" href="#carousel-example-generic-main" role="button" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+</div>

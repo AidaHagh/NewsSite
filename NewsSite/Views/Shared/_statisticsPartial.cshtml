@@ -1,0 +1,35 @@
+﻿@using Microsoft.AspNetCore.Http
+@*برای نگهداری ای پی*@
+
+@inject IVisitService _ivisit
+
+
+@inject IHttpContextAccessor http
+@inject IUnitOfWork _db
+
+@{
+    string remoteIpAddress = http.HttpContext.Connection.RemoteIpAddress.ToString();
+    string todayDate = DateTime.Now.ToString();
+
+    var query = _db.visitorUW.Get(v => v.IpAddress.Equals(remoteIpAddress) &&
+    v.DateTime.Equals(todayDate));
+
+    if (query.Count() == 0)
+    {
+        // امروز اولین بازدید است
+        Visitor hv = new Visitor();
+        hv.IpAddress = remoteIpAddress;
+        hv.DateTime = DateTime.Now;
+        hv.VisitCount = 1;
+
+        _db.visitorUW.Create(hv);
+        _db.save();
+
+    }
+    else
+    {
+        //کاربر امروز بازدید داشته است
+        _ivisit.IncreasVisit(remoteIpAddress, todayDate);
+    }
+
+}

@@ -1,0 +1,44 @@
+﻿@if (ViewBag.PageCount > 1)
+{
+    <div class="row text-center">
+
+        <nav>
+            <ul class="pagination">
+
+                @if ((int)ViewBag.PageID > 1)
+                {
+                    @* Previous *@
+                    <li>
+
+                        <a asp-controller="Comment" asp-action="Index" asp-route-Page="@((int)ViewBag.PageID - 1)">
+                            <span>&laquo;</span>
+                        </a>
+                    </li>
+                }
+
+                @for (int i = Math.Max(1, (int)ViewBag.PageID - 2); i <= Math.Min((int)ViewBag.PageCount, (int)ViewBag.PageID + 2); i++)
+                {
+                    <li class="@(((int)ViewBag.PageID==i)?" active":"")">
+                        <a asp-controller="Comment" asp-action="Index" asp-route-page="@i">
+                            @i
+                            <span class="sr-only"></span>
+                        </a>
+                    </li>
+                }
+
+
+                @if ((int)ViewBag.PageID <= (int)ViewBag.PageCount - 1)
+                {
+                    @* Next *@
+                    <li>
+                        <a asp-controller="Comment" asp-action="Index" asp-route-Page="@((int)ViewBag.PageID + 1)">
+                            <span>&raquo;</span>
+                        </a>
+                    </li>
+
+                }
+            </ul>
+        </nav>
+    </div>
+
+}

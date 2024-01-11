@@ -1,0 +1,159 @@
+﻿@model IEnumerable<Poll>
+@{
+    ViewData["Title"] = "لیست نظرسنجی ها";
+    ViewData["selected"] = "Poll";
+
+    Layout = "~/Areas/AdminPanel/Views/Shared/_AdminLayout.cshtml";
+    int counter = 1;
+}
+
+
+
+<style>
+    tr:hover td {
+        background-color: #dce4dc;
+    }
+</style>
+
+<div class="content">
+
+
+
+    <form>
+        <div class="panel panel-heading panelstyle">
+
+            <span style="font-weight:bold;">
+                <i class="icon-list"></i>
+                لیست نظرسنجی ها
+            </span>
+        </div>
+
+        <div class="panel col-md-12 searchStyle">
+
+            <span style="margin-bottom:5px;">جستجوی محتوا :</span>
+
+            <input type="text" id="mySearch" style="border: 1px solid gray;width: 300px; height: 40px;margin-bottom: 5px;text-align: center;font-weight: bold;border-radius: 4px;" placeholder="جستجو..." />
+
+        </div>
+    </form>
+
+    <div style="margin-bottom:5px;">
+        <a class="btn customPurple1" asp-controller="Poll" asp-action="Create">
+            <i class="glyphicon glyphicon-plus"></i>
+            افزودن نظرسنجی جدید
+        </a>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-danger text-center" role="alert">
+            <span style="font-weight:bold">عبارت مورد نظر پیدا نشد!</span>
+        </div>
+    }
+    else
+    {
+        <div>
+            <div class="table-responsive"
+                 style=" overflow:auto; border:1px solid gray; border-radius:2px; box-shadow:3px 3px 1px 0 gray;">
+                <table class="table table-bordered" style="background-color:white;">
+                    <thead>
+                        <tr style="font-size:14px; font-weight:bold; background-color:#becbbe;">
+                            <td>ردیف</td>
+                            <td class="text-center">متن سوال</td>
+                            <td class="text-center">تاريخ شروع نظرسنجي</td>
+                            <td class="text-center">تاريخ پايان نظرسنجي</td>
+                            <td class="text-center">وضعيت</td>
+                            <td style="width:160px;text-align:center;">عملیات</td>
+                        </tr>
+                    </thead>
+                    <tbody id="myTable">
+                        @foreach (var item in Model)
+                        {
+                            <tr style="font-size:12px;">
+                                <td style="width:60px; text-align:center;">@counter</td>
+                                <td style="text-align:right;">@item.Question</td>
+                                <td class="text-center">@ConvertDateTime.ConvertMiladiToShamsi(item.PollStartDate,"yyyy/MM/dd")</td>
+                                <td class="text-center">@ConvertDateTime.ConvertMiladiToShamsi(item.PollEndDate,"yyyy/MM/dd")</td>
+                                @if (item.Active == true)
+                                {
+                                    <td>
+                                        <span class="badge badge-success" style="width:60px;border-radius:15px;font-weight: bold;">
+                                            فعال
+                                        </span>
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td>
+                                        <span class="badge badge-danger" style="width:60px;border-radius:15px;font-weight: bold;">
+                                            به اتمام رسیده
+                                        </span>
+                                    </td>
+                                }
+
+                                <td class="text-center">
+                                    <div class="row">
+                                        @if (item.Active == true)
+                                        {
+                                            <a style="height:30px; width:40px; font-size:9px; margin-bottom:3px;"
+                                               class="btn customYellow1" asp-controller="Poll" asp-action="ClosePoll" asp-route-id="@item.PollId"
+                                               data-toggle="modal" data-target="#modal-action">
+                                                <i class="glyphicon glyphicon-stop" data-toggle="tooltip" data-placement="top" title="بستن نظرسنجی"></i>
+
+                                            </a>
+                                        }
+
+                                        <a style="height:30px; width:40px; font-size:9px; margin-bottom:3px;" asp-action="Delete" asp-route-id="@item.PollId"
+                                           data-toggle="modal" data-target="#modal-action" class="btn customRed1">
+                                            <i class="glyphicon glyphicon-trash" data-toggle="tooltip" data-placement="top" title="حذف"></i>
+                                        </a>
+
+                                        <a style="height:30px; width:40px; font-size:9px; margin-bottom:3px;"
+                                           data-toggle="modal" data-target="#modal-action" class="btn customBlue1" asp-controller="Poll" asp-action="PollResult" asp-route-id="@item.PollId">
+                                            <i class="fa fa-pie-chart" data-toggle="tooltip" data-placement="top" title=" نمایش نتایج"></i>
+                                        </a>
+
+                                    </div>
+
+                                </td>
+                            </tr>
+                            counter++;
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+
+</div>
+
+@* Paging *@
+@Html.Partial("Paginations/_pollPaging")
+
+
+@Html.Partial("_Modal", new BootstrapModel { ID = "modal-action", Size = BootstrapModel.ModalSize.Medium })
+
+@section AdminScripts{
+    <script src="~/admin/assets/js/modal/modal.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $("#mySearch").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $("#myTable tr").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+    </script>
+
+
+    @*برای تایتل دکمه ها*@
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+}
+

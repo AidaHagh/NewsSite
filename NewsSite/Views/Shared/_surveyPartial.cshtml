@@ -1,0 +1,70 @@
+﻿@model Poll
+@inject IUnitOfWork unitOfWork
+@inject IHttpContextAccessor httpca//برای کار با کوکی در ویوه ا .
+
+
+@if (Model != null)
+{
+    @if (httpca.HttpContext.Request.Cookies["poll" + Model.PollId] == null)
+
+    {
+        var answerList = unitOfWork.pollOptionUW.Get(a => a.PollID == Model.PollId);
+
+
+        <div id="nazarsanji" style="padding:5px;">
+            <span class="header-lastnews">نظرسنجی</span>
+
+            <div class="hr"></div>
+
+            <form>
+                <div id="content-nazarsanji">
+                    <div id="matn-nazarsanji">@Model.Question</div>
+                    <table class="row" style="width: 100%">
+                        @foreach (var answer in answerList)
+                        {
+                            <tr>
+                                <td>
+                                    <div class="form-group radio">
+                                        <label>
+                                            <input type="radio" name="r1" id="@answer.PolloptionID" />
+                                            @answer.Answer
+                                        </label>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                    <div class="row" style="width: 100%">
+
+                        <div class="form-group pull-left ">
+                            <button type="button" id="btnpolling" class="btn btn-success">ثبت نظر</button>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="hidden" id="getpollid">@Model.PollId</div>
+            </form>
+        </div>
+    }
+    else
+    {
+        <style>
+            .chartClass {
+                width: 280px;
+                height: 280px;
+                margin: 0 auto;
+            }
+        </style>
+
+        <div id="nazarsanji" style="padding-bottom:10px; padding-top:10px;">
+            <span class="header-lastnews">نتایج نظرسنجی </span>
+            <div class="hr"></div>
+
+            @* نمایش نمودار نتایج*@
+            <div id="pie-chart" class="chartClass"></div>
+
+        </div>
+    }
+
+}
+

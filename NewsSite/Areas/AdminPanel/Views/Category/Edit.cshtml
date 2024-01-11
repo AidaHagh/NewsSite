@@ -1,0 +1,58 @@
+﻿@model CategoryViewModel
+@{
+    ViewData["Title"] = "ویرایش دسته بندی خبر";
+    Layout = "~/Areas/AdminPanel/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<div class="content">
+
+    <div class="panel panel-heading panelstyle">
+        <span style="font-weight:bold;">
+            <i class="fa fa-edit"></i>
+            فرم ویرایش دسته بندی خبر
+        </span>
+    </div>
+
+
+    <div class="panel panel-body container-fluid panelstyle">
+
+        <form asp-controller="Category" asp-action="Edit" method="post">
+            <input asp-for="CategoryId" hidden />
+            <div class="col-md-8 col-md-offset-2">
+                <!--CategoryTitle-->
+                <div>
+                    <div class="col-md-10 col-xs-12 ">
+                        <label asp-for="Title" class="control-label col-md-3 col-xs-12 "></label>
+
+                        <input asp-for="Title" type="text" class="form-control custominput" placeholder="نام دسته بندی..." autocomplete="off" />
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <!--Description-->
+                <div>
+                    <div class="col-md-10 col-xs-12">
+                        <label asp-for="Description" class="control-label col-md-3 col-xs-12 "></label>
+
+                        <textarea asp-for="Description" type="text" class="form-control custominput" placeholder="توضیحات..." autocomplete="off"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                </div>
+
+
+                <div class="col-xs-12 form-group" style="margin-top:15px;">
+
+                    <input type="submit" style="border:1px solid gray; border-radius:3px;"
+                           value="ذخیره اطلاعات" class="btn customGreen1 pull-right" />
+
+                    <a asp-controller="Category" asp-action="Index" style="border:1px solid gray; border-radius:3px; margin-left:20px"
+                       value="برگشت" class="btn customRed pull-right">بازگشت</a>
+
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>
+

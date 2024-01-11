@@ -1,0 +1,231 @@
+﻿@model NewsViewModel
+@{
+    ViewData["Title"] = "ویرایش خبر";
+    Layout = "~/Areas/AdminPanel/Views/Shared/_AdminLayout.cshtml";
+
+    IndexPageSection Indexmodel = new IndexPageSection();
+    List<IndexPageSection> IndexVm = Indexmodel.GetPalceIndex();
+
+    TypeNewsModel TypeNews = new TypeNewsModel();
+    List<TypeNewsModel> modelType = TypeNews.GetTypeNews();
+}
+
+
+<div class="content">
+
+    <div class="panel panel-heading panelstyle">
+        <span style="font-weight:bold;">
+            <i class="fa fa-edit"></i>
+            فرم ویرایش خبر
+        </span>
+    </div>
+
+
+    <div class="panel panel-body container-fluid panelstyle">
+
+        <form asp-controller="News" asp-action="Edit" method="post">
+            <input asp-for="NewsId" hidden />
+            <div class="col-md-6 col-xs-12">
+
+
+                <!--Title-->
+                <div>
+                    <label asp-for="Title" class="control-label col-md-3 col-xs-12"></label>
+                    <div class="col-md-9 col-xs-12">
+                        <input asp-for="Title" type="text" class="form-control custominput2" placeholder="عنوان خبر ..." autocomplete="off" />
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <!--Abstract-->
+                <div>
+                    <label asp-for="Abstract" class="control-label col-md-3 col-xs-12"></label>
+                    <div class="col-md-9 col-xs-12">
+                        <input asp-for="Abstract" type="text" class="form-control custominput2" placeholder="چکیده خبر ..." autocomplete="off" />
+                        <span asp-validation-for="Abstract" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <!--NewsDate-->
+                <div style="margin-bottom:15px;">
+                    <label asp-for="NewsDate" class="control-label col-md-3 col-xs-12" for="BirthdayDate"></label>
+                    <div class="input-group col-md-9 col-xs-12 " style="padding-left: 9px;padding-right: 9px;">
+                        <div class="input-group-addon brd-icon" style="background-color: #e6ece6;">
+
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </div>
+                        <input asp-for="NewsDate" id="newsDate" name="newsDate" type="text" class="form-control custominput2" style="background-color: #e6ece6;" value="@ConvertDateTime.ConvertMiladiToShamsi(Model.NewsDate,"yyyy/MM/dd")" readonly>
+
+                    </div>
+                </div>
+
+                <!--NewsTime-->
+                <div style="margin-bottom:15px;">
+                    <label asp-for="NewsTime" class="control-label col-md-3 col-xs-12" for="BirthdayDate"></label>
+                    <div class="input-group col-md-9 col-xs-12 " style="padding-left: 9px;padding-right: 9px;">
+                        <div class="input-group-addon brd-icon" style="background-color: #e6ece6;">
+                            <span class="glyphicon glyphicon-time"></span>
+                        </div>
+                        <input asp-for="NewsTime" id="newsTime" name="newsTime" type="text" class="form-control custominput2" style="background-color: #e6ece6;" value="@ConvertDateTime.ConvertMiladiToShamsi(Model.NewsTime,"HH:mm")" readonly>
+                    </div>
+                </div>
+
+                <!--MetaTag-->
+                <div>
+                    <label asp-for="MetaTag" class="control-label col-md-3 col-xs-12"></label>
+                    <div class="col-md-9 col-xs-12">
+                        <input asp-for="MetaTag" type="text" class="form-control custominput2" autocomplete="off" />
+                    </div>
+                </div>
+
+                <!--MetaDescription-->
+                <div>
+                    <label asp-for="MetaDescription" class="control-label col-md-3 col-xs-12"></label>
+                    <div class="col-md-9 col-xs-12">
+                        <input asp-for="MetaDescription" type="text" class="form-control custominput2" autocomplete="off" />
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-md-6 col-xs-12">
+
+                <!--CategoryId-->
+                <div>
+                    <label asp-for="CategoryId" class="control-label col-md-3 col-xs-12"></label>
+                    <div class="col-md-9 col-xs-12">
+                        <select asp-for="CategoryId" asp-items="ViewBag.CategoryList" class="form-control custominput2"></select>
+                        <span asp-validation-for="CategoryId" class="text-danger"></span>
+                    </div>
+                </div>
+                <!--PlaceNewsId-->
+                <div>
+                    <label asp-for="PlaceNewsId" class="control-label col-md-3 col-xs-12"></label>
+                    <div class="col-md-9 col-xs-12">
+                        <select asp-for="PlaceNewsId" asp-items="@(new SelectList(IndexVm,"ID","Title"))" class="form-control custominput2"></select>
+                        <span asp-validation-for="PlaceNewsId" class="text-danger"></span>
+                    </div>
+                </div>
+                <!--NewsType-->
+                <div>
+                    <label asp-for="NewsType" class="control-label col-md-3 col-xs-12"></label>
+                    <div class="col-md-9 col-xs-12">
+                        <select asp-for="NewsType" asp-items="@(new SelectList(modelType,"ID","Title"))" class="form-control custominput2"></select>
+                        <span asp-validation-for="NewsType" class="text-danger"></span>
+                    </div>
+                </div>
+                <!--UserID-->
+                <input type="text" class="hidden" id="userid" name="userid" value="@ViewBag.UserID" />
+
+                <!--NewsImage-->
+                <div>
+                    <label asp-for="IndexImage" class="control-label col-md-3 col-xs-12"></label>
+                    <div class="col-md-9 col-xs-12">
+                        <div class="col-md-6">
+                            <div class="form-horizontal">
+
+                                <label for="IndexImage" class="btn upimgbtns ">
+                                    انتخاب تصویر
+                                    <i class="icon-file-picture"></i>
+                                </label>
+                                <input asp-for="IndexImage" type="file" accept=".jpg, .png, .tif, .tiff, .jpeg" style="visibility:hidden" />
+                                <span id="spnimageNews" style="color:black; font-size:12px;"></span>
+
+                                <!--نام جدید تصویر-->
+                                <input id="newIndexImageName" name="newIndexImageName" hidden value="@Model.IndexImage" />
+
+                                <input type="button" value="آپلود و نمایش تصویر" id="btnupload" onclick="UploadImage()" class="btn upimgbtns" />
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 col-xs-6">
+                            <img id="imgNewsimage" src="~/upload/indexImage/@Model.IndexImage"
+                                 style="height:130px; width:110px; margin:5px auto; border:1px solid gray; background-size:100%; width:100%;border-radius:3px;" />
+
+                            <div id="divmessage" class="text-center hidden"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12 col-xs-12">
+
+                <!--Content-->
+                <div>
+                    <label asp-for="Content" class="control-label col-md-3 col-xs-12"></label>
+                    <div class="col-md-12 col-xs-12">
+                        <textarea id="Content" name="Content" asp-for="Content" class="form-control custominput2" placeholder="متن خبر ..." autocomplete="off"></textarea>
+                        <span asp-validation-for="Content" class="text-danger"></span>
+
+                        <script src="~/site/lib/ckeditor/ckeditor.js"></script>
+                        <script type="text/javascript">
+                            CKEDITOR.replace('Content')
+                        </script>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-12 form-group" style="margin-top:15px;">
+
+                <input type="submit" value="ذخیره اطلاعات" class="btn customGreen1 pull-right" />
+
+                <a asp-controller="News" asp-action="Index" value="برگشت" class="btn customRed pull-right">بازگشت</a>
+
+            </div>
+        </form>
+    </div>
+
+</div>
+
+@section AdminScripts{
+
+    <script>
+        $("#IndexImage").change(function () {
+            var filename = this.files[0].name;
+            $("#spnimageNews").html(filename);
+        });
+    </script>
+
+    <script>
+        var UploadImage = function () {
+            var data = new FormData;
+            var file = $("#IndexImage").get(0);
+            var files = file.files;
+
+            for (var i = 0; i < files.length; i++) {
+                data.append('filearray', files[i]);
+            }
+            data.append('path', "upload\\indexImage\\");
+
+            $.ajax({
+                type: "post",
+                url: '@Url.Action("UploadImageFile","News", new { area = "AdminPanel"})',
+                data: data,
+                contentType: false,
+                processData: false
+
+            }).done(function (result) {
+                if (result.status == "success") {
+                    $("#imgNewsimage").attr('src', "\\upload\\indexImage\\" + result.imagename);
+                    $("#divmessage").text("آپلود موفقیت آمیز بود.");
+                    $("#divmessage").css("color", "green");
+                    $("#divmessage").removeClass("hidden");
+
+                    $("#newIndexImageName").val(result.imagename);
+                }
+
+            }).fail(function (result) {
+                if (result.status != "success") {
+                    $("#divmessage").css("color", "red");
+                    $("#divmessage").removeClass("hidden");
+                    $("#divmessage").text("در حین آپلود اشکالی بوجود آمد.");
+                }
+            });
+
+        }
+    </script>
+
+
+
+}

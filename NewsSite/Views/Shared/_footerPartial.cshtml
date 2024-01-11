@@ -1,0 +1,50 @@
+﻿@model IEnumerable<Social>
+
+<div id="main-footer" class="row">
+    <div class="container">
+
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="format-footer-text">
+                    <span>
+                        سایت رسمی برنامه نود با تهیه کنندگی عادل فردوسی پور و پوشش اخبار مسابقات فوتبال، نتایج زنده، جدول ها و ویدئوهای مسابقات لیگ ایران، اروپا و سایر نقاط جهان
+                    </span>
+                </div>
+
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="footer-icon pull-left">
+                    @foreach (var item in Model)
+                    {
+                        <a href="@item.Socials_Link">
+                            <img src="/upload/socialImage/@item.Socials_Image" />
+
+                        </a>
+
+                    }
+            
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-md-12 col-sm-12 col-xs-12 text-center">
+            <div class="line-sefid">
+                <span>
+                    طراحی، توسعه و پشتیبانی توسط
+                    <div id="arna-logo-footer">
+                        <a href="#">
+                            <img src="/site/img-index/ana.png" />
+                        </a>
+                    </div>
+                </span>
+
+                <span>
+                    استفاده از مطالب سایت تنها با ذکر منبع مجاز است.
+                </span>
+            </div>
+        </div>
+
+    </div>
+</div>

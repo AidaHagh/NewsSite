@@ -1,0 +1,55 @@
+﻿@font-face {
+    font-family: 'yekan';
+    font-weight: normal;
+    font-style: normal;
+    src: url('../fonts/yekan/Yekan.eot') format('embedded-opentype'), url('../fonts/yekan/Yekan.woff') format('woff'), url('../fonts/yekan/Yekan.ttf') format('truetype');
+}
+
+
+body{
+    font-family:yekan,Tahoma !important;
+    background-color:rgb(251,251,251);
+}
+
+.ads {
+    margin-top: 10px;
+    padding: 3px;
+    border: 1px dashed #cfcfcf;
+    height: 100px;
+    width: 500px;
+}
+
+
+.box{
+    background-color:white;
+    padding:7px;
+    border-radius:4px;
+    border:1px solid #eee;
+}
+
+.hr{
+    margin:3px 0 3px 0;
+    border-bottom: #cfcfcf 1px solid;
+}
+
+ul{
+    list-style:none;
+    padding:0;
+}
+
+.wiget-menu-list{
+    padding:5px;
+    margin:2px;
+    background-color:rgba(249,249,249,1);
+    transition:500ms;
+
+}
+
+.wiget-menu-list li:hover{
+    background-color:rgba(243,241,241,1);
+}
+
+.img-res{
+    width:100%;
+    height:auto;
+}

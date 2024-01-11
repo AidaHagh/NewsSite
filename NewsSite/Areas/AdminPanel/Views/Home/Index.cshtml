@@ -1,0 +1,126 @@
+﻿@model IEnumerable<Visitor>
+
+@inject IUnitOfWork _db;
+@{
+    ViewData["Title"] = "Index";
+    ViewData["selected"] = "dashboard";
+
+    Layout = "~/Areas/AdminPanel/Views/Shared/_AdminLayout.cshtml";
+    int counter = 1;
+}
+@{
+    var visit = _db.visitorUW.Get();
+    var allVisits = visit.Sum(x=>x.VisitCount);
+    var allVisitor = visit.DistinctBy(x => x.IpAddress).Count();
+}
+
+<div class="content">
+
+    <div class="panel panel-heading panelstyle">
+
+        <span style="font-weight:bold;">
+            <i class="icon-list"></i>
+            پیشخوان
+        </span>
+    </div>
+
+    <div style="margin-top:20px;">
+
+
+        <div class="col-lg-6 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-yellow">
+                <div class="p-3 mb-2 bg-warning text-dark">
+                    <h3 style="text-align:center">@allVisits</h3>
+
+                    <p style="text-align:center">بازدید کل</p>
+
+                    <div class="icon" style="text-align:center">
+                        <i class="ion ion-person-add"></i>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+        <div class="col-lg-6 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-red">
+                <div class="p-3 mb-2 bg-primary text-white">
+                    <h3 style="text-align:center">@allVisitor</h3>
+
+                    <p style="text-align:center">بازدید کننده کل</p>
+
+                    <div class="icon" style="text-align:center">
+                        <i class="ion ion-pie-graph"></i>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<form>
+
+    <div class="panel col-md-12" style="border: 1px solid gray; background-color: #D4EFDF; text-align: center; padding: 10px 6px 5px 6px; border-radius: 2px; margin-bottom: 20px;">
+
+        <span style="margin-bottom:5px;">جستجوی محتوا :</span>
+
+        <input type="text" id="mySearch" style="border:1px solid gray; width:300px; height:28px; margin-bottom:5px; text-align:center; font-weight:bold;" placeholder="جستجو ..." />
+    </div>
+</form>
+
+<div class="table-responsive"
+     style=" overflow:auto; border:1px solid gray; border-radius:2px; box-shadow:3px 3px 1px 0 gray;">
+    <table class="table table-bordered" style="background-color:white;">
+        <thead>
+            <tr style="font-size:14px; font-weight:bold; background-color:#D0ECE7;">
+                <td>ردیف</td>
+                <td>آی پی کاربر</td>
+                <td>تاریخ بازدید</td>
+                <td style="width:220px;">تعداد بازدید</td>
+            </tr>
+        </thead>
+        <tbody id="myTable">
+            @foreach (var item in Model.DistinctBy(x => x.IpAddress))
+            {
+                <tr style="font-size:12px;">
+                    <td style="width:60px; text-align:center;">@counter</td>
+                    <td style="text-align:right;">@item.IpAddress</td>
+                    <td>@ConvertDateTime.ConvertMiladiToShamsi(item.DateTime,"yyyy/MM/dd")</td>
+                    <td style="text-align:right;">@item.VisitCount</td>
+                </tr>
+                counter++;
+            }
+
+        </tbody>
+    </table>
+</div>
+
+
+<div style="margin-top:10px">
+    @* Paging *@
+    @Html.Partial("Paginations/_dashboardPartialPaging")
+</div>
+
+
+
+@section AdminScripts{
+    <script src="~/js/modal/modal.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $("#mySearch").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $("#myTable tr").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+    </script>
+
+}

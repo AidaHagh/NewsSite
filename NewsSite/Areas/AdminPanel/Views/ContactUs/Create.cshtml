@@ -1,0 +1,58 @@
+﻿@model ContactUsViewModel
+@{
+    ViewData["Title"] = "ثبت ارتباط با ما";
+    Layout = "~/Areas/AdminPanel/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<div class="content">
+
+    <div class="panel panel-heading panelstyle" >
+        <span style="font-weight:bold;" >
+            <i class="fa fa-align-left"></i>
+            فرم @ViewData["Title"]
+        </span>
+    </div>
+
+
+    <div class="panel panel-body container-fluid panelstyle" >
+       
+        <form asp-controller="ContactUs" asp-action="Create" method="post">
+            <div class="col-md-12 col-xs-12">
+
+                <!--Tel-->
+                <div>
+                    <label asp-for="Tel" class="control-label col-md-3 col-xs-12 "></label>
+                    <div class="col-md-12 col-xs-12">
+                        <input asp-for="Tel" type="text" class="form-control custominput" placeholder="شماره تماس..." autocomplete="off" />
+                        <span asp-validation-for="Tel" class="text-danger"></span>
+
+                    </div>
+                </div>
+                           
+                <!--Email-->
+                <div>
+                    <label asp-for="Email" class="control-label col-md-3 col-xs-12 "></label>
+                    <div class="col-md-12 col-xs-12">
+                        <input asp-for="Email" type="text" class="form-control custominput" placeholder=" ایمیل..." autocomplete="off" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+
+                    </div>
+                </div>
+
+
+                <div class="col-xs-12 form-group" style="margin-top:15px;">
+
+                    <input type="submit" style="border:1px solid gray; border-radius:3px;"
+                           value="ذخیره اطلاعات" class="btn customGreen1 pull-right" />
+
+                    <a asp-controller="ContactUs" asp-action="Index" style="border:1px solid gray; border-radius:3px; margin-left:20px"
+                       value="برگشت" class="btn customRed pull-right">بازگشت</a>
+
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>
+

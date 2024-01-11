@@ -1,0 +1,145 @@
+﻿@model SocialViewModel
+@{
+    ViewData["Title"] = "فرم ویرایش شبکه های اجتماعی";
+    Layout = "~/Areas/AdminPanel/Views/Shared/_AdminLayout.cshtml";
+
+}
+
+
+<div class="content">
+
+    <div class="panel panel-heading panelstyle">
+        <span style="font-weight:bold;">
+            <i class="glyphicon glyphicon-edit"></i>
+            @ViewData["Title"]
+        </span>
+    </div>
+
+    <div class="panel panel-body container-fluid panelstyle">
+        <form asp-controller="Social" asp-action="Edit" method="post" enctype="multipart/form-data">
+            <input asp-for="Id" hidden />
+            <div class="col-md-6 col-xs-12">
+
+
+                <!--Name-->
+                <div>
+                    <label asp-for="Socials_Name" class="control-label col-md-3 col-xs-12"></label>
+                    <div class="col-md-9 col-xs-12">
+                        <input asp-for="Socials_Name" type="text" class="form-control custominput2" placeholder="نام ..." autocomplete="off" />
+                        <span asp-validation-for="Socials_Name" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <!--Link-->
+                <div>
+                    <label asp-for="Socials_Link" class="control-label col-md-3 col-xs-12"></label>
+                    <div class="col-md-9 col-xs-12">
+                        <input asp-for="Socials_Link" type="text" class="form-control custominput2" placeholder="https://..." autocomplete="off" />
+                        <span asp-validation-for="Socials_Link" class="text-danger"></span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-md-6 col-xs-12">
+                <!--SocialImage-->
+                <div>
+                    <label asp-for="Socials_Image" class="control-label col-md-3 col-xs-12"></label>
+                    <div class="col-md-9 col-xs-12">
+                        <div class="col-md-6">
+                            <div class="form-horizontal">
+
+                                <label for="Socials_Image" class="btn upimgbtns ">
+                                    انتخاب تصویر
+                                    <i class="icon-file-picture"></i>
+                                </label>
+                                <input asp-for="Socials_Image" type="file" accept=".jpg, .png, .tif, .tiff, .jpeg, .gif" style="visibility:hidden" />
+                                <span id="spnimageSocial" style="color:black; font-size:12px;"></span>
+
+                                <!--نام جدید تصویر-->
+                                <input id="newImagePathName" name="newImagePathName" hidden value="@Model.Socials_Image" />
+
+                                <input type="button" value="آپلود و نمایش تصویر" id="btnupload" onclick="UploadImage()" class="btn upimgbtns" />
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 col-xs-6">
+                            <img id="imgSocialimage" src="~/upload/socialImage/@Model.Socials_Image"
+                                 style="height:130px; width:110px; margin:5px auto; border:1px solid gray; background-size:100%; width:100%;border-radius:3px;" />
+
+                            <div id="divmessage" class="text-center hidden"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-12 form-group" style="margin-top:15px;">
+
+                <input type="submit" value="ذخیره اطلاعات" class="btn customGreen1 pull-right" />
+
+                <a asp-controller="Social" asp-action="Index" value="برگشت" class="btn customRed pull-right">بازگشت</a>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+
+
+
+@section AdminScripts{
+
+    <script>
+        $("#Socials_Image").change(function () {
+            var filename = this.files[0].name;
+            $("#spnimageSocial").html(filename);
+        });
+    </script>
+
+    <script>
+        var UploadImage = function () {
+            var data = new FormData;
+            var file = $("#Socials_Image").get(0);
+            var files = file.files;
+
+            for (var i = 0; i < files.length; i++) {
+                data.append('filearray', files[i]);
+            }
+            data.append('path', "upload\\socialImage\\");
+
+            $.ajax({
+                type: "post",
+                url: '@Url.Action("UploadImageFile","Social", new { area = "AdminPanel"})',
+                data: data,
+                contentType: false,
+                processData: false
+
+            }).done(function (result) {
+                if (result.status == "success") {
+                    $("#imgSocialimage").attr('src', "\\upload\\socialImage\\" + result.imagename);
+                    $("#divmessage").text("آپلود موفقیت آمیز بود.");
+                    $("#divmessage").css("color", "green");
+                    $("#divmessage").removeClass("hidden");
+
+                    $("#newImagePathName").val(result.imagename);
+                }
+
+            }).fail(function (result) {
+                if (result.status != "success") {
+                    $("#divmessage").css("color", "red");
+                    $("#divmessage").removeClass("hidden");
+                    $("#divmessage").text("در حین آپلود اشکالی بوجود آمد.");
+                }
+            });
+
+        }
+    </script>
+
+
+
+}
+
+

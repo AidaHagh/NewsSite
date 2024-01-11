@@ -1,0 +1,38 @@
+﻿@model IEnumerable<News>
+
+<div id="last-video" class="col-xs-12 col-sm-12">
+
+    <span class="header-lastnews">آخرین ویدیوها</span>
+
+    <div class="hr"></div>
+
+    <div id="video-content">
+        <div class="row customize-row">
+
+            @foreach (var item in Model)
+            {
+                <div class="col-xs-6 col-sm-6 col-md-4">
+                    <div class="set-posi">
+                        <a asp-controller="Home" asp-action="NewsDetails" asp-route-Id="@item.NewsId">
+                            <div class="glyphcenter-transition">
+                                <img style="width:174px; height:100px;" src="~/upload/indexImage/@item.IndexImage" class="img-responsive" />
+                                <span class="glyphicon glyphicon-play-circle"></span>
+                            </div>
+                            <div class="videoThumbnail_caption col-lg-12">
+                                @item.Title
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+            }
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 margin-from-above">
+                <div class="form-group pull-left ">
+                    <a asp-controller="Home" asp-action="ShowAllVideo"  class="btn btn-more-video">ویدیوهای بیشتر</a>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>

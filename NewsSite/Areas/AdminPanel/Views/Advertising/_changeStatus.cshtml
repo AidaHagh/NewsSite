@@ -1,0 +1,23 @@
+﻿@model Advertising
+@{
+    Layout = null;
+}
+
+<form asp-controller="Advertising" asp-action="ChangeStatus" method="post">
+    <div class="modal-header" style="background-color:goldenrod; color:white; border-radius:5px 5px 0 0;">
+        <button type="button" class="close pull-left" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title marginMod">تغییر وضعیت نمایش تبلیغ</h4>
+    </div>
+
+    <div class="modal-body form-horizontal">
+        آیا از تغییر وضعیت نمایش تبلیغ مطمئن هستید؟
+    </div>
+
+    <div class="modal-footer" style="text-align:left;">
+        <button class="btn btn-default" type="button" style="width:80px;" data-dismiss="modal">بازگشت</button>
+        <button type="submit" class="btn" style="width:100px; color:white; background-color:goldenrod;">
+            تغییر وضعیت
+        </button>
+    </div>
+
+</form>

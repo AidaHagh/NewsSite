@@ -1,0 +1,98 @@
+﻿@{
+    ViewData["Title"] = "UserDetails";
+    Layout = "~/Areas/AdminPanel/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+
+
+<div class="content">
+
+    <div class="panel panel-heading panelstyle">
+
+        <span style="font-weight:bold;">
+            <i class="icon-list"></i>
+            مشخصات کاربر
+        </span>
+    </div>
+
+
+    <div class="panel panel-body container-fluid panelstyle">
+ 
+
+    <div style="margin-bottom:10px;">
+        <div class="col-md-6 col-xs-12">
+
+
+            <div>
+                <span style="font-weight:bold">نام : </span>
+                <span style="color:darkblue;">@Model.FirstName</span>
+            </div>
+            <br />
+            <div>
+                <span style="font-weight:bold">فامیلی : </span>
+                    <span style="color:darkblue;">@Model.LastName</span>
+            </div>
+            <br />
+            <div>
+                <span style="font-weight:bold">نام کاربری : </span>
+                    <span style="color:darkblue;">@Model.UserName</span>
+            </div>
+            <br />
+
+            <div>
+                <span style="font-weight:bold">ایمیل : </span>
+                    <span style="color:darkblue;">@Model.Email</span>
+            </div>
+            <br />
+            <div>
+                <span style="font-weight:bold">موبایل : </span>
+                    <span style="color:darkblue;">@Model.PhoneNumber</span>
+            </div>
+            <br />
+            <div>
+                <span style="font-weight:bold">تاریخ تولد : </span>
+                    <span style="color:darkblue;">@ConvertDateTime.ConvertMiladiToShamsi(Model.BirthDayDate,"yyyy/MM/dd")</span>
+            </div>
+            <br />
+
+            <div>
+                <span style="font-weight:bold">جنسیت : </span>
+                @if (Model.gender == 1)
+                {
+                        <span style="color:darkblue;">مرد </span>
+                }
+                else
+                {
+                        <span style="color:darkblue;">زن</span>
+                }
+            </div>
+            <br />
+
+        </div>
+
+        <div class="col-md-6 col-xs-12">
+            <div>
+                <span style="font-weight:bold;" class="col-md-4">تصویر : </span>
+                <div class="col-md-8" style="margin-bottom:15px;">
+                    <img src="~/upload/userimage/@Model.ImagePath" style="width:175px; height:200px;
+                                border:1px solid gray; border-radius:3px;" />
+                </div>
+            </div>
+
+        </div>
+
+            <hr style="height:2px; background-color:#a1ada1; margin-top:10px;" class="col-md-12 col-xs-12 row" />
+
+
+        <div class="col-xs-12 form-group" style="margin-top:15px;">
+
+                <input type="submit" value="چاپ اطلاعات" class="btn customGreen1 pull-right" />
+
+                <a asp-controller="User" asp-action="Index" value="برگشت" class="btn customRed pull-right">بازگشت</a>
+
+        </div>
+    </div>
+
+</div>
+</div>

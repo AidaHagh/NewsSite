@@ -1,0 +1,28 @@
+﻿@model ContactUs
+
+@{
+    Layout = null;
+}
+
+<form asp-controller="ContactUs" asp-action="DeletePost" method="post">
+    <div class="modal-header" style="background-color:firebrick; color:white; border-radius:5px 5px 0 0;">
+        <button type="button" class="close pull-left" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title marginMod">حذف دسته بندی خبر</h4>
+    </div>
+
+    <div class="modal-body form-horizontal">
+        آیا از حذف <span style="color:firebrick"> " ارتباط با ما "</span>
+        مطمئن هستید؟
+    </div>
+
+    <input type="hidden" asp-for="Id" />
+
+
+    <div class="modal-footer" style="text-align:left;">
+        <button class="btn btn-default" type="button" style="width:80px;" data-dismiss="modal">بازگشت</button>
+        <button type="submit" class="btn" style="width:80px; color:white; background-color:firebrick;">
+            تایید
+        </button>
+    </div>
+
+</form>

@@ -1,0 +1,27 @@
+﻿@model Poll
+
+@{
+    Layout = null;
+}
+
+<form asp-controller="Poll" asp-action="ClosePoll" method="post">
+    <div class="modal-header" style="background-color:goldenrod; color:white; border-radius:5px 5px 0 0;">
+        <button type="button" class="close pull-left" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title marginMod">بستن نظرسنجی  </h4>
+    </div>
+
+    <div class="modal-body form-horizontal">
+        آیا از بستن نظرسنجی
+        " <span style="font-weight:bold;">@Model.Question</span> "
+        مطمئن هستید؟
+    </div>
+
+
+    <div class="modal-footer" style="text-align:left;">
+        <button class="btn btn-default" type="button" style="width:80px;" data-dismiss="modal">بازگشت</button>
+        <button type="submit" class="btn" style="width:80px; color:white; background-color:goldenrod;">
+            تایید
+        </button>
+    </div>
+
+</form>

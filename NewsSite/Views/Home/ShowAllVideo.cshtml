@@ -1,0 +1,42 @@
+﻿@model IndexModel
+
+
+<div id="container" class="container-fluid" style="background-color: white;">
+
+    <!--Start Header-->
+    @Html.Partial("_headerPartial", Model.Adver.Where(a => a.AdverLocation == 1))
+    <!--End Header-->
+    <!--Start Menu-->
+    @Html.Partial("_menuPartial")
+    <!--End Menu-->
+    <!--Start Content-->
+    <div class="row" id="content">
+        <div id="content-body" class="container">
+            <div class="col-lg-10 col-md-10 col-xs-12 col-sm-12">
+                @if (Model.LastVideo.Any())
+                {
+                    @Html.Partial("_showMoreVideo",Model.LastVideo)
+                }
+                else
+                {
+                    <div class="col-md-12 alert alert-danger" style="margin-bottom: 110px;margin-top: 110px;text-align: center;">
+                        <span class="text-danger text-center">
+                            محتوایی برای نمایش وجود ندارد.
+                        </span>
+                    </div>
+                }
+
+            </div>
+            <!--پایان محتوا-->
+            <!--پایان دسته بندی-->
+            <!--start tabligh-->
+            @Html.Partial("_advertiesPartial", Model.Adver)
+            <!--end tabligh-->
+        </div>
+    </div>
+    <!--End Content-->
+    <!--Start footer-->
+    @Html.Partial("_footerPartial", Model.social)
+    <!--End Footer-->
+
+</div>

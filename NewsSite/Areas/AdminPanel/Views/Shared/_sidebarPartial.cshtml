@@ -1,0 +1,129 @@
+﻿@inject UserManager<ApplicationUsers> _userManager
+@inject IHttpContextAccessor _hc
+@{
+    var selected = ViewData["selected"]?.ToString()?.ToLower();
+
+}
+<div class="sidebar sidebar-main" style="background-color:#2C3E50;">
+    <div class="sidebar-content">
+        @if (User.Identity.IsAuthenticated)
+        {
+            //بدست آوردن اطلاعات کاربری که لاگین کرده در ویو
+            var user = await _userManager.GetUserAsync(_hc.HttpContext.User);
+        
+        <!-- START - User menu -->
+        <div class="sidebar-user">
+            <div class="category-content">
+                <div class="media">
+                    <a href="#" class="media-left">
+                    </a>
+                    <div class="media-body" style="color:white;">
+                        <img src="~/upload/userimage/@user.ImagePath" class="img-circle" alt="User Image" style="height:60px;width:60px">
+                        <span class="media-heading text-semibold">@user.FirstName @user.LastName</span>
+                        <div class="text-size-mini text-muted" style="color:white;">
+                            <i class="icon-pin text-size-small"></i> &nbsp; پنل ادمین
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END - User menu -->
+        }else
+        {
+            <!-- START - User menu -->
+            <div class="sidebar-user">
+                <div class="category-content">
+                    <div class="media">
+                        <a href="#" class="media-left">
+                        </a>
+                        <div class="media-body" style="color:white;">
+                            <img src="~/upload/userimage/userdefault.png" class="img-circle" alt="User Image" style="height:60px;width:60px">
+                            <span class="media-heading text-semibold"></span>
+                            <div class="text-size-mini text-muted" style="color:white;">
+                                <i class="icon-pin text-size-small"></i> &nbsp; پنل ادمین
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END - User menu -->
+        }
+
+        <!-- START - Main navigation -->
+        <div class="sidebar-category sidebar-category-visible">
+            <div class="category-content no-padding">
+
+                <!-- START - Item Navigation -->
+                <ul class="navigation navigation-main" style="color:white;">
+
+                    <!-- START - Item Navigation Header -->
+              @*      <li class="navigation-header"style="color:white;">
+                        <span style="color:white;"> داشبورد اختصاصی کاربران</span> <i class="icon-menu"
+                                                                 title="صفحه اصلی"></i>
+                    </li>*@
+                    <li class="@(selected=="dashboard"?"active":null)">
+                        <a href="/AdminPanel">
+                            <i class="icon-home4" style="color:white;"></i>
+                            <span style="color:white;">پیشخوان</span>
+                        </a>
+                    </li>
+                    <li>
+                    </li>
+
+                    <li class="@(selected=="users"?"active":null)">
+                        <a asp-controller="User" asp-action="Index"><i class="icon-users" style="color:white;"></i><span style="color:white;">مدیریت کاربران</span></a>
+                    </li>  
+
+                    <li class="@(selected=="roles"?"active":null)">
+                        <a asp-controller="Role" asp-action="Index"><i class="icon-users" style="color:white;"></i><span style="color:white;">مدیریت نقش کاربران</span></a>
+                    </li>
+
+                    <li class="@(selected=="category"?"active":null)">
+                        <a asp-controller="Category" asp-action="Index"><i class="icon-list" style="color:white;"></i><span style="color:white;">دسته بندی خبر</span></a>
+                    </li>
+
+                    <li class="@(selected=="news"?"active":null)">
+                        <a asp-controller="News" asp-action="Index"><i class="icon-newspaper" style="color:white;"></i><span style="color:white;">مدیریت اخبار</span></a>
+                    </li> 
+
+                    <li class="@(selected=="newspaper"?"active":null)">
+                        <a asp-controller="NewsPaper" asp-action="Index"><i class="icon-newspaper" style="color:white;"></i><span style="color:white;">مدیریت روزنامه ها</span></a>
+                    </li>   
+              
+                    <li class="@(selected=="advertising"?"active":null)">
+                        <a asp-controller="Advertising" asp-action="Index"><i class="glyphicon glyphicon-bullhorn" style="color:white;"></i><span style="color:white;">مدیریت تبلیغات</span></a>
+                    </li>  
+ 
+                    <li class="@(selected=="poll"?"active":null)">
+
+                        <a asp-controller="Poll" asp-action="Index"><i class="icon-bookmark" style="color:white;"></i><span style="color:white;">مدیریت نظرسنجی</span></a>
+                    </li>   
+                    <li class="@(selected=="comment"?"active":null)">
+                        <a asp-controller="Comment" asp-action="Index"><i class="icon-comment" style="color:white;"></i><span style="color:white;">مدیریت نظرات</span></a>
+
+                    </li>  
+
+                    <li class="@(selected=="aboutus"?"active":null)">
+                        <a asp-controller="AboutUs" asp-action="Index"><i class="fa fa-users" style="color:white;"></i><span style="color:white;">مدیریت درباره ما</span></a>
+
+                    </li>     
+
+                    <li class="@(selected=="contactus"?"active":null)">
+                        <a asp-controller="ContactUs" asp-action="Index"><i class="fa fa-phone" style="color:white;"></i><span style="color:white;">مدیریت ارتباط با ما</span></a>
+
+                    </li>
+
+                    <li class="@(selected=="social"?"active":null)">
+                        <a asp-controller="Social" asp-action="Index"><i class="fa fa-envelope" style="color:white;"></i><span style="color:white;">مدیریت شبکه های اجتماعی</span></a>
+
+                    </li>
+                    
+                </ul>
+                <!-- END - Item Navigation -->
+
+            </div>
+        </div>
+        <!-- END - Main navigation -->
+
+    </div>
+</div>
